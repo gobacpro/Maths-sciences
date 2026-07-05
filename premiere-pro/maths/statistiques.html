@@ -128,22 +128,178 @@
             <p>Attention au piège classique ! **Plus l'écart-type (σ) est petit, plus la série est régulière, homogène et serrée autour de la moyenne.** Un grand écart-type signifie que les données sont très dispersées.</p>
         </div>
 
-        <!-- Exercice interactif -->
-        <div class="interactive-box">
-            <h3>Générateur d'entraînement personnalisé</h3>
-            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 10px;">Générez des données uniques pour vous entraîner à trouver la moyenne et la médiane.</p>
-            <p id="data-series" style="font-weight: bold; font-size: 1.1rem; margin: 15px 0; color: var(--secondary);">[ Cliquez sur le bouton pour démarrer ]</p>
-            
-            <button class="btn" onclick="generateExercise()">Générer des valeurs</button>
-            <button class="btn btn-success" onclick="toggleAnswer()">Vérifier mes résultats</button>
+<!-- Exercice interactif mis à jour -->
+<div class="interactive-box">
+    <h3>Générateur d'entraînement personnalisé (Stats 2 Variables)</h3>
+    <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 10px;">
+        Générez un nuage de 5 points pour vous entraîner à calculer tous les indicateurs des variables <i>x</i> et <i>y</i>.
+    </p>
+    
+    <button class="btn" onclick="generateExercise()">Générer une série de données</button>
+    <button class="btn btn-success" onclick="toggleAnswer()">Vérifier mes résultats</button>
 
-            <div id="answer-zone" class="hidden-content">
-                <p style="color: var(--success); font-weight: bold; margin-bottom: 5px;">Corrigé de votre série :</p>
-                <p id="ans-mean">Moyenne (x̄) = --</p>
-                <p id="ans-median">Médiane (Me) = --</p>
+    <!-- Affichage des données générées sous forme de tableau Pro -->
+    <div id="table-zone" style="margin: 15px 0; display: none;">
+        <table style="width: 100%; border-collapse: collapse; background: #fff;">
+            <thead>
+                <tr style="background: #e2e8f0;">
+                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Variable</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 1</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 2</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 3</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 4</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 5</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px; font-weight: bold; background: #f8fafc;">x<sub>i</sub></td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x0">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x1">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x2">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x3">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x4">--</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px; font-weight: bold; background: #f8fafc;">y<sub>i</sub></td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y0">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y1">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y2">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y3">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y4">--</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Zone d'affichage du corrigé complet -->
+    <div id="answer-zone" class="hidden-content" style="display: none; text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0; margin-top: 15px;">
+        <p style="color: var(--success); font-weight: bold; margin-bottom: 10px; font-size: 1.1rem;">📊 Corrigé automatique de votre série :</p>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+            <!-- Colonne Variable X -->
+            <div style="border-right: 1px solid #e2e8f0; padding-right: 10px;">
+                <h4 style="color: var(--primary); margin-bottom: 8px;">Pour la variable <i>x</i> :</h4>
+                <p><strong>Moyenne (<span style="text-decoration: overline;">x</span>) :</strong> <span id="ans-x-mean">--</span></p>
+                <p><strong>Médiane (Me<sub>x</sub>) :</strong> <span id="ans-x-med">--</span></p>
+                <p><strong>1er Quartile (Q<sub>1x</sub>) :</strong> <span id="ans-x-q1">--</span></p>
+                <p><strong>3ème Quartile (Q<sub>3x</sub>) :</strong> <span id="ans-x-q3">--</span></p>
+                <p><strong>Écart-type (&sigma;<sub>x</sub>) :</strong> <span id="ans-x-sd">--</span></p>
+            </div>
+            
+            <!-- Colonne Variable Y -->
+            <div>
+                <h4 style="color: var(--maths); margin-bottom: 8px;">Pour la variable <i>y</i> :</h4>
+                <p><strong>Moyenne (<span style="text-decoration: overline;">y</span>) :</strong> <span id="ans-y-mean">--</span></p>
+                <p><strong>Médiane (Me<sub>y</sub>) :</strong> <span id="ans-y-med">--</span></p>
+                <p><strong>1er Quartile (Q<sub>1y</sub>) :</strong> <span id="ans-y-q1">--</span></p>
+                <p><strong>3ème Quartile (Q<sub>3y</sub>) :</strong> <span id="ans-y-q3">--</span></p>
+                <p><strong>Écart-type (&sigma;<sub>y</sub>) :</strong> <span id="ans-y-sd">--</span></p>
             </div>
         </div>
+        
+        <!-- Coordonnées du Point Moyen G pour la 1ère Pro -->
+        <div style="margin-top: 15px; padding-top: 10px; border-top: 2px dashed #cbd5e1; text-align: center; font-weight: bold; font-size: 1.1rem; color: var(--secondary);">
+            📍 Coordonnées du Point Moyen G : (<span id="ans-g-x">--</span>&nbsp;;&nbsp;<span id="ans-g-y">--</span>)
+        </div>
     </div>
+</div>
+
+<script>
+    let currentX = [];
+    let currentY = [];
+
+    // Fonction mathématique pour calculer les indicateurs d'une liste
+    function calculerIndicateurs(liste) {
+        // On travaille sur une copie triée pour la médiane et les quartiles
+        let triee = [...liste].sort((a, b) => a - b);
+        let n = triee.length;
+        
+        // 1. Moyenne
+        let somme = triee.reduce((a, b) => a + b, 0);
+        let moyenne = somme / n;
+        
+        // 2. Médiane (5 valeurs : la 3ème, index 2)
+        let mediane = triee[2];
+        
+        // 3. Quartiles (Méthode officielle éducation nationale pour N=5)
+        // Q1 : 25% de 5 = 1.25 -> on prend la 2ème valeur (index 1)
+        // Q3 : 75% de 5 = 3.75 -> on prend la 4ème valeur (index 3)
+        let q1 = triee[1];
+        let q3 = triee[3];
+        
+        // 4. Écart-type (Variance puis racine carrée)
+        let variance = triee.reduce((acc, val) => acc + Math.pow(val - moyenne, 2), 0) / n;
+        let ecartType = Math.sqrt(variance);
+        
+        return {
+            mean: moyenne.toFixed(2),
+            med: mediane,
+            q1: q1,
+            q3: q3,
+            sd: ecartType.toFixed(2)
+        };
+    }
+
+    function generateExercise() {
+        currentX = [];
+        currentY = [];
+        
+        // Génération de 5 points
+        for(let i = 0; i < 5; i++) {
+            currentX.push(Math.floor(Math.random() * (40 - 10 + 1)) + 10);
+            currentY.push(Math.floor(Math.random() * (150 - 60 + 1)) + 60);
+        }
+        
+        // Remplissage du tableau HTML visible par l'élève
+        for(let i = 0; i < 5; i++) {
+            document.getElementById(`td-x${i}`).innerText = currentX[i];
+            document.getElementById(`td-y${i}`).innerText = currentY[i];
+        }
+        
+        // Afficher le conteneur du tableau
+        document.getElementById('table-zone').style.display = 'block';
+        // Cacher l'ancien corrigé si présent
+        document.getElementById('answer-zone').style.display = 'none';
+    }
+
+    function toggleAnswer() {
+        const zone = document.getElementById('answer-zone');
+        if (currentX.length === 0) {
+            alert("Veuillez d'abord générer une série de valeurs !");
+            return;
+        }
+        
+        if (zone.style.display === 'block') {
+            zone.style.display = 'none';
+            return;
+        }
+        
+        // Calcul et affichage des résultats
+        let statsX = calculerIndicateurs(currentX);
+        let statsY = calculerIndicateurs(currentY);
+        
+        // Injection Variable X
+        document.getElementById('ans-x-mean').innerText = statsX.mean;
+        document.getElementById('ans-x-med').innerText = statsX.med;
+        document.getElementById('ans-x-q1').innerText = statsX.q1;
+        document.getElementById('ans-x-q3').innerText = statsX.q3;
+        document.getElementById('ans-x-sd').innerText = statsX.sd;
+        
+        // Injection Variable Y
+        document.getElementById('ans-y-mean').innerText = statsY.mean;
+        document.getElementById('ans-y-med').innerText = statsY.med;
+        document.getElementById('ans-y-q1').innerText = statsY.q1;
+        document.getElementById('ans-y-q3').innerText = statsY.q3;
+        document.getElementById('ans-y-sd').innerText = statsY.sd;
+        
+        // Injection Point Moyen G
+        document.getElementById('ans-g-x').innerText = statsX.mean;
+        document.getElementById('ans-g-y').innerText = statsY.mean;
+        
+        zone.style.display = 'block';
+    }
+</script>
 
     <!-- ÉTAPE 3 : OBJECTIF EVALUATION -->
     <h2 class="section-title">🔴 Étape 3 : Objectif Évaluation (CCF)</h2>
