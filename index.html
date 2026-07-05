@@ -38,19 +38,37 @@
         .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media(min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
 
-        .card { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); border-top: 5px solid #ccc; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-2px); }
+        .card { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); border-top: 5px solid #ccc; }
         .card.maths { border-top-color: var(--maths); }
         .card.sciences { border-top-color: var(--sciences); }
         
-        .card h2 { margin-bottom: 15px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
-        .card ul { list-style: none; }
-        .card li { margin-bottom: 12px; }
-        .card a { color: var(--text); text-decoration: none; display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #f1f5f9; border-radius: 6px; transition: background 0.2s; }
-        .card a:hover { background: #e2e8f0; color: var(--primary); }
+        .card h2 { margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        
+        /* Boutons de sélection de niveau */
+        .level-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
+        .btn-lvl { flex: 1; padding: 10px; border: 1px solid #cbd5e1; background: #fff; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; color: var(--text); }
+        
+        /* États actifs des boutons par matière */
+        .maths .btn-lvl.active { background: var(--maths); color: white; border-color: var(--maths); }
+        .sciences .btn-lvl.active { background: var(--sciences); color: white; border-color: var(--sciences); }
+        .btn-lvl:hover:not(.active) { background: #f1f5f9; }
+
+        /* Listes de chapitres (cachées par défaut) */
+        .chapters-list { display: none; list-style: none; animation: fadeIn 0.3s ease; }
+        .chapters-list.active { display: block; }
+        
+        .chapters-list li { margin-bottom: 12px; }
+        .chapters-list a { color: var(--text); text-decoration: none; display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f1f5f9; border-radius: 6px; transition: background 0.2s; font-size: 0.95rem; }
+        .chapters-list a:hover { background: #e2e8f0; color: var(--primary); }
+        
         .badge { font-size: 0.8rem; padding: 2px 8px; background: #cbd5e1; border-radius: 9999px; font-weight: bold; color: var(--secondary); }
 
-        footer { text-align: center; margin-top: 5px; padding: 40px 0; color: var(--text-light); font-size: 0.9rem; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        footer { text-align: center; margin-top: 30px; padding: 40px 0; color: var(--text-light); font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -77,28 +95,59 @@
         <!-- BLOC MATHÉMATIQUES -->
         <article class="card maths">
             <h2>📐 Mathématiques</h2>
-            <ul>
+            <div class="level-buttons">
+                <button class="btn-lvl" onclick="switchLevel('maths', '2nde')">2nde Pro</button>
+                <button class="btn-lvl" onclick="switchLevel('maths', '1ere')">1ère Pro</button>
+            </div>
+            
+            <!-- Chapitres Seconde -->
+            <ul id="maths-2nde" class="chapters-list">
+                <li>
+                    <a href="seconde-pro/maths/statistiques-2nde.html">
+                        <span>Statistiques à une variable (Bases)</span>
+                        <span class="badge">2nde Pro</span>
+                    </a>
+                </li>
+                <!-- Ajoutez vos autres chapitres de 2nde ici -->
+            </ul>
+
+            <!-- Chapitres Première -->
+            <ul id="maths-1ere" class="chapters-list">
                 <li>
                     <a href="premiere-pro/maths/statistiques.html">
-                        <span>Statistiques à une variable</span>
+                        <span>Statistiques à une variable (Dispersion)</span>
                         <span class="badge">1ère Pro</span>
                     </a>
                 </li>
-                <!-- Ajoutez vos futurs chapitres de mathématiques ici -->
             </ul>
         </article>
 
         <!-- BLOC PHYSIQUE-CHIMIE -->
         <article class="card sciences">
             <h2>⚡ Physique-Chimie</h2>
-            <ul>
+            <div class="level-buttons">
+                <button class="btn-lvl" onclick="switchLevel('sciences', '2nde')">2nde Pro</button>
+                <button class="btn-lvl" onclick="switchLevel('sciences', '1ere')">1ère Pro</button>
+            </div>
+
+            <!-- Chapitres Seconde -->
+            <ul id="sciences-2nde" class="chapters-list">
+                <li>
+                    <a href="seconde-pro/physique-chimie/securite-electrique.html">
+                        <span>Sécurité électrique en atelier</span>
+                        <span class="badge">2nde Pro</span>
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Chapitres Première -->
+            <ul id="sciences-1ere" class="chapters-list">
                 <li>
                     <a href="premiere-pro/physique-chimie/circuits-electriques.html">
                         <span>Circuits électriques (CC)</span>
                         <span class="badge">1ère Pro</span>
                     </a>
                 </li>
-                <!-- Ajoutez vos futurs chapitres de sciences ici -->
             </ul>
         </article>
     </main>
@@ -109,15 +158,36 @@
 </div>
 
 <script>
-    // Configuration de vos raccourcis de correction (Gagne-temps)
+    // Gestion de l'affichage dynamique des chapitres par niveau
+    function switchLevel(subject, level) {
+        const card = document.querySelector(`.${subject}`);
+        const buttons = card.querySelectorAll('.btn-lvl');
+        const lists = card.querySelectorAll('.chapters-list');
+        const targetList = document.getElementById(`${subject}-${level}`);
+        const targetButton = event.currentTarget;
+
+        // Si le bouton cliqué est déjà actif, on referme tout
+        if (targetButton.classList.contains('active')) {
+            targetButton.classList.remove('active');
+            targetList.classList.remove('active');
+            return;
+        }
+
+        // Sinon, on nettoie les états actifs de la carte concernée
+        buttons.forEach(btn => btn.classList.remove('active'));
+        lists.forEach(list => list.classList.remove('active'));
+
+        // On active l'onglet sélectionné
+        targetButton.classList.add('active');
+        targetList.classList.add('active');
+    }
+
+    // Configuration des raccourcis de correction (Gagne-temps)
     const tableCorrespondance = {
-        // Raccourcis pour les statistiques
         'R1': 'premiere-pro/maths/statistiques.html#erreur-saisie',
         'R2': 'premiere-pro/maths/statistiques.html#erreur-comparaison',
         'R3': 'premiere-pro/maths/statistiques.html#erreur-dispersion',
         'STAT1': 'premiere-pro/maths/statistiques.html',
-        
-        // Raccourcis pour l'électricité
         'E1': 'premiere-pro/physique-chimie/circuits-electriques.html#loi-ohm',
         'E2': 'premiere-pro/physique-chimie/circuits-electriques.html#unites'
     };
@@ -134,11 +204,8 @@
         }
     }
 
-    // Permet de valider en appuyant sur la touche "Entrée"
     document.getElementById('code-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            redirigerCode();
-        }
+        if (e.key === 'Enter') { redirigerCode(); }
     });
 </script>
 
