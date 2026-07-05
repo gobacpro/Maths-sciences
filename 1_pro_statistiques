@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1ère Pro — Statistiques à une variable</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --maths: #e11d48;
+            --secondary: #0f172a;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+            --success: #16a34a;
+            --warning: #ea580c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        /* Navigation / Fil d'Ariane */
+        .nav-back { margin-bottom: 20px; }
+        .nav-back a { color: var(--primary); text-decoration: none; font-weight: bold; display: inline-flex; align-items: center; gap: 5px; }
+
+        header { background: var(--card-bg); padding: 30px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); border-left: 6px solid var(--maths); }
+        header h1 { font-size: 1.8rem; color: var(--secondary); margin-bottom: 8px; }
+        header p { color: var(--text-light); }
+
+        /* Sections de la page */
+        .section-title { font-size: 1.3rem; color: var(--secondary); margin: 30px 0 15px 0; display: flex; align-items: center; gap: 10px; }
+        
+        .card { background: var(--card-bg); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgb(0 0 0 / 0.02); border: 1px solid #e2e8f0; }
+        
+        /* Liens de téléchargement / Liens externes */
+        .resource-link { display: flex; justify-content: space-between; align-items: center; padding: 12px 15px; background: #f1f5f9; border-radius: 8px; text-decoration: none; color: var(--text); font-weight: 500; transition: background 0.2s; margin-bottom: 10px; }
+        .resource-link:hover { background: #e2e8f0; color: var(--primary); }
+        .resource-link .icon { font-size: 1.2rem; }
+
+        /* Blocs d'alertes ciblés pour les remédiations (Ancres HTML) */
+        .remediation-block { border-left: 4px solid var(--warning); background: #fff7ed; padding: 15px; border-radius: 0 8px 8px 0; margin-bottom: 15px; scroll-margin-top: 20px; }
+        .remediation-block h4 { color: #c2410c; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+
+        /* Interface de l'exercice interactif */
+        .interactive-box { background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px; border-radius: 8px; text-align: center; margin-top: 15px; }
+        .btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; transition: background 0.2s; margin: 10px 5px; }
+        .btn:hover { background: #1d4ed8; }
+        .btn-success { background: var(--success); }
+        .btn-success:hover { background: #15803d; }
+        .hidden-content { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px solid #e2e8f0; text-align: left; }
+
+        footer { text-align: center; margin-top: 40px; padding: 20px 0; color: var(--text-light); font-size: 0.9rem; border-top: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Retour à l'accueil -->
+    <div class="nav-back">
+        <a href="../../index.html">← Retour à l'accueil</a>
+    </div>
+
+    <header>
+        <h1>Statistiques à une variable</h1>
+        <p>Niveau : Première Professionnelle • Module : Statistique et Probabilités</p>
+    </header>
+
+    <!-- ÉTAPE 1 : JE COMPRENDS -->
+    <h2 class="section-title">🟢 Étape 1 : Je comprends (Cours)</h2>
+    <div class="card">
+        <p style="margin-bottom: 15px;">Téléchargez le résumé de cours complet comprenant les formules clés pour la moyenne, la médiane et l'écart-type.</p>
+        <a href="#" class="resource-link">
+            <span>📄 Fiche Synthèse du Cours (PDF)</span>
+            <span class="icon">📥</span>
+        </a>
+        <a href="#" class="resource-link">
+            <span>📊 Formulaire des compétences Mathématiques</span>
+            <span class="icon">📥</span>
+        </a>
+    </div>
+
+    <!-- ÉTAPE 2 : JE M'EXERCE / REMÉDIATION AUTO -->
+    <h2 class="section-title">🔵 Étape 2 : Je m'exerce (Remédiation Active)</h2>
+    <div class="card">
+        <p style="margin-bottom: 15px;">Si vous venez ici après la correction d'un devoir, consultez directement la zone correspondant au code inscrit sur votre copie.</p>
+
+        <!-- Zone d'ancrage R1 -->
+        <div id="erreur-saisie" class="remediation-block">
+            <h4>⚠️ Erreur R1 : Problème de saisie ou d'unités</h4>
+            <p>Pensez à vérifier que vous n'avez pas oublié de trier vos valeurs ou que vous avez correctement configuré les effectifs (Fréquences) sur votre calculatrice. N'oubliez jamais l'unité dans votre réponse finale !</p>
+        </div>
+
+        <!-- Zone d'ancrage R2 -->
+        <div id="erreur-comparaison" class="remediation-block">
+            <h4>⚠️ Erreur R2 : Comparaison incomplète</h4>
+            <p>Comparer deux séries ne veut pas dire lister les chiffres. Vous devez rédiger une phrase concrète : <em>"En moyenne, le groupe B a un résultat plus élevé que le groupe A car..."</em></p>
+        </div>
+
+        <!-- Zone d'ancrage R3 -->
+        <div id="erreur-dispersion" class="remediation-block">
+            <h4>⚠️ Erreur R3 : Interprétation de l'écart-type</h4>
+            <p>Attention au piège classique ! **Plus l'écart-type (σ) est petit, plus la série est régulière, homogène et serrée autour de la moyenne.** Un grand écart-type signifie que les données sont très dispersées.</p>
+        </div>
+
+        <!-- Exercice interactif -->
+        <div class="interactive-box">
+            <h3>Générateur d'entraînement personnalisé</h3>
+            <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 10px;">Générez des données uniques pour vous entraîner à trouver la moyenne et la médiane.</p>
+            <p id="data-series" style="font-weight: bold; font-size: 1.1rem; margin: 15px 0; color: var(--secondary);">[ Cliquez sur le bouton pour démarrer ]</p>
+            
+            <button class="btn" onclick="generateExercise()">Générer des valeurs</button>
+            <button class="btn btn-success" onclick="toggleAnswer()">Vérifier mes résultats</button>
+
+            <div id="answer-zone" class="hidden-content">
+                <p style="color: var(--success); font-weight: bold; margin-bottom: 5px;">Corrigé de votre série :</p>
+                <p id="ans-mean">Moyenne (x̄) = --</p>
+                <p id="ans-median">Médiane (Me) = --</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ÉTAPE 3 : OBJECTIF EVALUATION -->
+    <h2 class="section-title">🔴 Étape 3 : Objectif Évaluation (CCF)</h2>
+    <div class="card">
+        <p style="margin-bottom: 15px;">Entraînez-vous avec des sujets construits exactement sur la grille de compétences officielle du Bac Professionnel.</p>
+        <a href="#" class="resource-link">
+            <span>📝 Sujet d'entraînement type CCF : "Contrôle Qualité"</span>
+            <span class="icon">📄</span>
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 — Espace d'autonomie et de remédiation active.</p>
+    </footer>
+</div>
+
+<script>
+    // Script de l'exercice interactif à données aléatoires
+    let currentSeries = [];
+
+    function generateExercise() {
+        currentSeries = [];
+        // Génère 7 valeurs impaires pour simplifier le calcul de la médiane par l'élève
+        for(let i = 0; i < 7; i++) {
+            currentSeries.push(Math.floor(Math.random() * (90 - 40 + 1)) + 40);
+        }
+        // Tri de la série
+        currentSeries.sort((a, b) => a - b);
+        
+        document.getElementById('data-series').innerText = "Série triée : " + currentSeries.join(' - ');
+        
+        // Calculs en tâche de fond
+        let sum = currentSeries.reduce((a, b) => a + b, 0);
+        let mean = (sum / currentSeries.length).toFixed(1);
+        let median = currentSeries[3]; // L'élément central sur 7 valeurs triées
+
+        document.getElementById('ans-mean').innerHTML = "<strong>Moyenne (x̄) :</strong> " + mean;
+        document.getElementById('ans-median').innerHTML = "<strong>Médiane (Me) :</strong> " + median + " <small>(4ème valeur)</small>";
+        
+        // On recache la réponse si une nouvelle série est demandée
+        document.getElementById('answer-zone').style.display = 'none';
+    }
+
+    function toggleAnswer() {
+        const zone = document.getElementById('answer-zone');
+        if (currentSeries.length === 0) {
+            alert("Veuillez d'abord générer une série de valeurs !");
+            return;
+        }
+        zone.style.display = (zone.style.display === 'block') ? 'none' : 'block';
+    }
+</script>
+
+</body>
+</html>
