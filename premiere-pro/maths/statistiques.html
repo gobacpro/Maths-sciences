@@ -128,221 +128,157 @@
             <p>Attention au piège classique ! **Plus l'écart-type (σ) est petit, plus la série est régulière, homogène et serrée autour de la moyenne.** Un grand écart-type signifie que les données sont très dispersées.</p>
         </div>
 
-<!-- Exercice interactif avec Graphique Intégré -->
+<!-- Exercice interactif : Tableau à 5 valeurs -->
 <div class="interactive-box">
-    <h3>Générateur d'entraînement personnalisé (Stats 2 Variables)</h3>
+    <h3>Générateur d'entraînement personnalisé (Tableau de mesures)</h3>
     <p style="font-size: 0.9rem; color: var(--text-light); margin-bottom: 15px;">
-        Générez un nuage de 5 points pour vous entraîner à calculer tous les indicateurs et visualiser le point moyen <i>G</i>.
+        Générez un tableau de 5 mesures pour vous entraîner à calculer tous les indicateurs statistiques (Moyenne, Médiane, Quartiles, Écart-type).
     </p>
     
-    <button class="btn" onclick="generateExercise()">Générer une série de données</button>
-    <button class="btn btn-success" onclick="toggleAnswer()">Vérifier mes résultats & Voir le graphique</button>
+    <button class="btn" onclick="genererNouvelleSerie()">Générer une série de données</button>
+    <button class="btn btn-success" onclick="afficherLeCorrige()">Vérifier mes résultats</button>
 
-    <!-- Zone du Tableau de données -->
-    <div id="table-zone" style="margin: 15px 0; display: none;">
-        <table style="width: 100%; border-collapse: collapse; background: #fff; margin-bottom: 20px;">
+    <!-- Zone du Tableau de données (Caché au départ, s'affiche au clic) -->
+    <div id="table-zone" style="margin: 20px 0; display: none;">
+        <table style="width: 100%; border-collapse: collapse; background: #fff; box-shadow: 0 2px 4px rgb(0 0 0 / 0.05);">
             <thead>
-                <tr style="background: #e2e8f0;">
-                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Variable</th>
-                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 1</th>
-                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 2</th>
-                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 3</th>
-                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 4</th>
-                    <th style="border: 1px solid #cbd5e1; padding: 8px;">Point 5</th>
+                <tr style="background: #e2e8f0; color: var(--secondary);">
+                    <th style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold;">Mesure n°</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold;">1</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold;">2</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold;">3</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold;">4</th>
+                    <th style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold;">5</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px; font-weight: bold; background: #f8fafc;">x<sub>i</sub></td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x0">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x1">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x2">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x3">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-x4">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold; background: #f8fafc; color: var(--primary);">Série x<sub>i</sub></td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-x0">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-x1">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-x2">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-x3">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-x4">--</td>
                 </tr>
                 <tr>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px; font-weight: bold; background: #f8fafc;">y<sub>i</sub></td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y0">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y1">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y2">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y3">--</td>
-                    <td style="border: 1px solid #cbd5e1; padding: 8px;" id="td-y4">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: bold; background: #f8fafc; color: var(--maths);">Série i<sub>i</sub></td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-i0">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-i1">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-i2">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-i3">--</td>
+                    <td style="border: 1px solid #cbd5e1; padding: 10px; font-weight: 500;" id="cell-i4">--</td>
                 </tr>
             </tbody>
         </table>
     </div>
-
-    <!-- ZONE DU NUAGE DE POINTS (CANVAS) -->
-    <div id="chart-container" style="display: none; background: white; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
-        <h4 style="color: var(--secondary); margin-bottom: 10px; text-align: left;">📉 Représentation graphique du nuage de points</h4>
-        <canvas id="nuageCanvas" width="500" height="300" style="width: 100%; max-width: 500px; display: block; margin: 0 auto;"></canvas>
-    </div>
     
     <!-- Zone d'affichage du corrigé écrit -->
-    <div id="answer-zone" class="hidden-content" style="display: none; text-align: left; background: #fff; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0;">
-        <p style="color: var(--success); font-weight: bold; margin-bottom: 10px; font-size: 1.1rem;">📊 Corrigé automatique de votre série :</p>
+    <div id="answer-zone" style="display: none; text-align: left; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0; box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.02);">
+        <p style="color: var(--success); font-weight: bold; margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid #dcfce7; padding-bottom: 5px;">📊 Réponses attendues pour cette série :</p>
         
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-            <div style="border-right: 1px solid #e2e8f0; padding-right: 10px;">
-                <h4 style="color: var(--primary); margin-bottom: 8px;">Pour la variable <i>x</i> :</h4>
-                <p><strong>Moyenne (<span style="text-decoration: overline;">x</span>) :</strong> <span id="ans-x-mean">--</span></p>
-                <p><strong>Médiane (Me<sub>x</sub>) :</strong> <span id="ans-x-med">--</span></p>
-                <p><strong>1er Quartile (Q<sub>1x</sub>) :</strong> <span id="ans-x-q1">--</span></p>
-                <p><strong>3ème Quartile (Q<sub>3x</sub>) :</strong> <span id="ans-x-q3">--</span></p>
-                <p><strong>Écart-type (&sigma;<sub>x</sub>) :</strong> <span id="ans-x-sd">--</span></p>
+            <!-- Résultats Série X -->
+            <div style="border-right: 1px solid #e2e8f0; padding-right: 15px;">
+                <h4 style="color: var(--primary); margin-bottom: 10px; font-size: 1.05rem;">Pour la série x :</h4>
+                <p style="margin-bottom: 6px;"><strong>Moyenne :</strong> <span id="out-x-mean">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>Médiane :</strong> <span id="out-x-med">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>1er Quartile (Q<sub>1</sub>) :</strong> <span id="out-x-q1">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>3ème Quartile (Q<sub>3</sub>) :</strong> <span id="out-x-q3">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>Écart-type (&sigma;) :</strong> <span id="out-x-sd">--</span></p>
             </div>
+            
+            <!-- Résultats Série I -->
             <div>
-                <h4 style="color: var(--maths); margin-bottom: 8px;">Pour la variable <i>y</i> :</h4>
-                <p><strong>Moyenne (<span style="text-decoration: overline;">y</span>) :</strong> <span id="ans-y-mean">--</span></p>
-                <p><strong>Médiane (Me<sub>y</sub>) :</strong> <span id="ans-y-med">--</span></p>
-                <p><strong>1er Quartile (Q<sub>1y</sub>) :</strong> <span id="ans-y-q1">--</span></p>
-                <p><strong>3ème Quartile (Q<sub>3y</sub>) :</strong> <span id="ans-y-q3">--</span></p>
-                <p><strong>Écart-type (&sigma;<sub>y</sub>) :</strong> <span id="ans-y-sd">--</span></p>
+                <h4 style="color: var(--maths); margin-bottom: 10px; font-size: 1.05rem;">Pour la série i :</h4>
+                <p style="margin-bottom: 6px;"><strong>Moyenne :</strong> <span id="out-i-mean">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>Médiane :</strong> <span id="out-i-med">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>1er Quartile (Q<sub>1</sub>) :</strong> <span id="out-i-q1">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>3ème Quartile (Q<sub>3</sub>) :</strong> <span id="out-i-q3">--</span></p>
+                <p style="margin-bottom: 6px;"><strong>Écart-type (&sigma;) :</strong> <span id="out-i-sd">--</span></p>
             </div>
-        </div>
-        
-        <div style="margin-top: 15px; padding-top: 10px; border-top: 2px dashed #cbd5e1; text-align: center; font-weight: bold; font-size: 1.1rem; color: var(--secondary);">
-            📍 Coordonnées du Point Moyen G : (<span id="ans-g-x">--</span>&nbsp;;&nbsp;<span id="ans-g-y">--</span>)
         </div>
     </div>
 </div>
 
 <script>
-    let currentX = [];
-    let currentY = [];
+    // Variables globales pour stocker les tableaux générés
+    let listeX = [];
+    let listeI = [];
 
-    function calculerIndicateurs(liste) {
-        let triee = [...liste].sort((a, b) => a - b);
+    // Fonction de calcul statistique isolée et robuste
+    function analyserSérie(tableau) {
+        let triee = [...tableau].sort((a, b) => a - b);
         let n = triee.length;
-        let somme = triee.reduce((a, b) => a + b, 0);
-        let moyenne = somme / n;
-        let variance = triee.reduce((acc, val) => acc + Math.pow(val - moyenne, 2), 0) / n;
         
+        let somme = triee.reduce((acc, val) => acc + val, 0);
+        let moy = somme / n;
+        
+        let variance = triee.reduce((acc, val) => acc + Math.pow(val - moy, 2), 0) / n;
+        let sigma = Math.sqrt(variance);
+
         return {
-            mean: moyenne,
-            med: triee[2],
-            q1: triee[1],
-            q3: triee[3],
-            sd: Math.sqrt(variance)
+            moyenne: moy.toFixed(2),
+            mediane: triee[2], // Milieu exact pour 5 valeurs
+            q1: triee[1],      // Rang 2 pour N=5 selon la règle EN
+            q3: triee[3],      // Rang 4 pour N=5 selon la règle EN
+            ecartType: sigma.toFixed(2)
         };
     }
 
-    function generateExercise() {
-        currentX = [];
-        currentY = [];
+    function genererNouvelleSerie() {
+        listeX = [];
+        listeI = [];
         
-        // Bornes réalistes pour un exercice de 1ère Pro
-        for(let i = 0; i < 5; i++) {
-            currentX.push(Math.floor(Math.random() * (45 - 5 + 1)) + 5);
-            currentY.push(Math.floor(Math.random() * (140 - 20 + 1)) + 20);
+        // Remplissage de 5 valeurs aléatoires
+        for (let idx = 0; idx < 5; idx++) {
+            listeX.push(Math.floor(Math.random() * (50 - 10 + 1)) + 10);
+            listeI.push(Math.floor(Math.random() * (120 - 30 + 1)) + 30);
         }
         
-        for(let i = 0; i < 5; i++) {
-            document.getElementById(`td-x${i}`).innerText = currentX[i];
-            document.getElementById(`td-y${i}`).innerText = currentY[i];
+        // Injection sécurisée dans le tableau HTML
+        for (let idx = 0; idx < 5; idx++) {
+            document.getElementById('cell-x' + idx).innerText = listeX[idx];
+            document.getElementById('cell-i' + idx).innerText = listeI[idx];
         }
         
+        // Ajustement des affichages
         document.getElementById('table-zone').style.display = 'block';
-        document.getElementById('chart-container').style.display = 'none';
         document.getElementById('answer-zone').style.display = 'none';
     }
 
-    function drawNuage(showG, meanX, meanY) {
-        const canvas = document.getElementById('nuageCanvas');
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Marges du graphique
-        const marginX = 40;
-        const marginY = 30;
-        const graphWidth = canvas.width - marginX - 20;
-        const graphHeight = canvas.height - marginY - 20;
-
-        // Échelles fixes pour l'exercice (X_max = 50, Y_max = 150)
-        const maxX = 50;
-        const maxY = 150;
-
-        // Tracé de la grille et des axes
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1;
-        for (let i = 10; i <= maxX; i += 10) {
-            let xPos = marginX + (i / maxX) * graphWidth;
-            ctx.beginPath(); ctx.moveTo(xPos, 10); ctx.lineTo(xPos, canvas.height - marginY); ctx.stroke();
-            ctx.fillStyle = '#64748b'; ctx.font = '10px sans-serif';
-            ctx.fillText(i, xPos - 5, canvas.height - marginY + 15);
-        }
-        for (let i = 30; i <= maxY; i += 30) {
-            let yPos = canvas.height - marginY - (i / maxY) * graphHeight;
-            ctx.beginPath(); ctx.moveTo(marginX, yPos); ctx.lineTo(canvas.width - 10, yPos); ctx.stroke();
-            ctx.fillStyle = '#64748b'; ctx.font = '10px sans-serif';
-            ctx.fillText(i, 10, yPos + 4);
-        }
-
-        // Axe X et Y d'origine
-        ctx.strokeStyle = '#475569'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(marginX, 10); ctx.lineTo(marginX, canvas.height - marginY); ctx.lineTo(canvas.width - 10, canvas.height - marginY); ctx.stroke();
-
-        // Tracé des points du nuage (Bleu)
-        ctx.fillStyle = '#2563eb';
-        for (let i = 0; i < 5; i++) {
-            let cx = marginX + (currentX[i] / maxX) * graphWidth;
-            let cy = canvas.height - marginY - (currentY[i] / maxY) * graphHeight;
-            ctx.beginPath();
-            ctx.arc(cx, cy, 5, 0, 2 * Math.PI);
-            ctx.fill();
-        }
-
-        // Tracé du Point Moyen G (Rouge clignotant/marqué) si l'élève demande la correction
-        if (showG) {
-            let gx = marginX + (meanX / maxX) * graphWidth;
-            let gy = canvas.height - marginY - (meanY / maxY) * graphHeight;
-            ctx.fillStyle = '#e11d48';
-            ctx.beginPath();
-            ctx.arc(gx, gy, 7, 0, 2 * Math.PI);
-            ctx.fill();
-            ctx.fillStyle = '#991b1b';
-            ctx.font = 'bold 12px sans-serif';
-            ctx.fillText('G', gx + 10, gy - 5);
-        }
-    }
-
-    function toggleAnswer() {
-        const zone = document.getElementById('answer-zone');
-        const chartZone = document.getElementById('chart-container');
-        if (currentX.length === 0) {
-            alert("Veuillez d'abord générer une série de valeurs !");
+    function afficherLeCorrige() {
+        const zoneCorrige = document.getElementById('answer-zone');
+        
+        if (listeX.length === 0) {
+            alert("Veuillez d'abord cliquer sur 'Générer une série de données' !");
             return;
         }
         
-        if (zone.style.display === 'block') {
-            zone.style.display = 'none';
-            chartZone.style.display = 'none';
+        // Si le corrigé est déjà ouvert, on le ferme
+        if (zoneCorrige.style.display === 'block') {
+            zoneCorrige.style.display = 'none';
             return;
         }
         
-        let statsX = calculerIndicateurs(currentX);
-        let statsY = calculerIndicateurs(currentY);
+        // Lancement des calculs
+        let resultatsX = analyserSérie(listeX);
+        let resultatsI = analyserSérie(listeI);
         
-        document.getElementById('ans-x-mean').innerText = statsX.mean.toFixed(2);
-        document.getElementById('ans-x-med').innerText = statsX.med;
-        document.getElementById('ans-x-q1').innerText = statsX.q1;
-        document.getElementById('ans-x-q3').innerText = statsX.q3;
-        document.getElementById('ans-x-sd').innerText = statsX.sd.toFixed(2);
+        // Affichage des données de la série X
+        document.getElementById('out-x-mean').innerText = resultatsX.moyenne;
+        document.getElementById('out-x-med').innerText = resultatsX.mediane;
+        document.getElementById('out-x-q1').innerText = resultatsX.q1;
+        document.getElementById('out-x-q3').innerText = resultatsX.q3;
+        document.getElementById('out-x-sd').innerText = resultatsX.ecartType;
         
-        document.getElementById('ans-y-mean').innerText = statsY.mean.toFixed(2);
-        document.getElementById('ans-y-med').innerText = statsY.med;
-        document.getElementById('ans-y-q1').innerText = statsY.q1;
-        document.getElementById('ans-y-q3').innerText = statsY.q3;
-        document.getElementById('ans-y-sd').innerText = statsY.sd.toFixed(2);
+        // Affichage des données de la série I
+        document.getElementById('out-i-mean').innerText = resultatsI.moyenne;
+        document.getElementById('out-i-med').innerText = resultatsI.mediane;
+        document.getElementById('out-i-q1').innerText = resultatsI.q1;
+        document.getElementById('out-i-q3').innerText = resultatsI.q3;
+        document.getElementById('out-i-sd').innerText = resultatsI.ecartType;
         
-        document.getElementById('ans-g-x').innerText = statsX.mean.toFixed(2);
-        document.getElementById('ans-g-y').innerText = statsY.mean.toFixed(2);
-        
-        chartZone.style.display = 'block';
-        zone.style.display = 'block';
-
-        // Dessine le nuage de points incluant le point G calculé
-        drawNuage(true, statsX.mean, statsY.mean);
+        zoneCorrige.style.display = 'block';
     }
 </script>
     <!-- ÉTAPE 3 : OBJECTIF EVALUATION -->
