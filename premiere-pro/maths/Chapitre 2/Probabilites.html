@@ -1,1 +1,387 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Cours - Probabilités et fluctuation d'une fréquence</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background-color: #ffffff;
+      padding: 24px;
+      max-width: 900px;
+      margin: auto;
+    }
+    .header-box {
+      border: 1px solid #b0bec5;
+      background-color: #f8f9fa;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+    }
+    .etablissement {
+      margin: 0;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #546e7a;
+      font-weight: bold;
+    }
+    h1 {
+      margin: 8px 0 4px 0;
+      color: #1565c0;
+      font-size: 24px;
+    }
+    .metadata {
+      margin: 0;
+      color: #37474f;
+      font-size: 14px;
+    }
+    h2 {
+      color: #1565c0;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 4px;
+      margin-top: 28px;
+    }
+    h3 {
+      color: #2c3e50;
+      margin-top: 18px;
+    }
+    .formula-box {
+      background-color: #eef2f7;
+      padding: 12px 18px;
+      border-left: 4px solid #1565c0;
+      margin: 14px 0;
+      font-size: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #cfd8dc;
+      padding: 9px 12px;
+    }
+    th {
+      background-color: #1565c0;
+      color: #ffffff;
+      text-align: center;
+    }
+    .table-memo th {
+      background-color: #37474f;
+    }
+    .exercise-box {
+      border: 1px solid #cfd8dc;
+      padding: 14px;
+      border-radius: 6px;
+      margin-bottom: 18px;
+      background-color: #fafafa;
+    }
+    .exercise-title {
+      margin-top: 0;
+      color: #2e7d32;
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .correction-box {
+      margin-top: 10px;
+      background-color: #ffffff;
+      padding: 12px;
+      border-radius: 4px;
+      border: 1px solid #e0e0e0;
+    }
+    .correction-title {
+      margin: 0 0 6px 0;
+      font-weight: bold;
+      color: #1565c0;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #0d47a1;
+    }
+  </style>
+</head>
+<body>
 
+  <!-- EN-TÊTE PÉDAGOGIQUE -->
+  <div class="header-box">
+    <p class="etablissement">Lycée Professionnel Pierre Latécoère &bull; Baccalauréat Professionnel (1ère Pro)</p>
+    <h1>Probabilités et fluctuation d'une fréquence</h1>
+    <p class="metadata"><strong>Discipline :</strong> Mathématiques &bull; <strong>Groupement :</strong> Bac Pro &bull; <strong>Thématique :</strong> Statistiques et Probabilités</p>
+  </div>
+
+  <!-- INTRODUCTION -->
+  <h2>Introduction</h2>
+  <p>Une expérience aléatoire est une expérience dont le résultat est soumis au hasard (impossible à prévoir avec certitude) et reproductible dans des conditions identiques. L'objectif de ce chapitre est d'apprendre à dénombrer les issues possibles, à calculer la probabilité d'événements élémentaires, composés ou conditionnels, et à interpréter la fluctuation d'échantillonnage.</p>
+
+  <!-- I. VOCABULAIRE ET PROBABILITÉ D'UN ÉVÉNEMENT -->
+  <h2>I. Probabilité d'un événement</h2>
+
+  <h3>1. Définitions et calcul de base (Situation d'équiprobabilité)</h3>
+  <p>Lorsque toutes les issues d'une expérience aléatoire ont la même probabilité de se produire (on parle de situation d'équiprobabilité), la probabilité d'un événement A, notée P(A), est donnée par le rapport :</p>
+
+  <div class="formula-box">
+    <strong>Formule fondamentale :</strong><br>
+    P(A) = (Nombre de cas favorables à l'événement A) / (Nombre total de cas possibles)
+  </div>
+
+  <p><strong>Propriétés essentielles :</strong></p>
+  <ul>
+    <li>Pour tout événement A : <strong>0 &le; P(A) &le; 1</strong> (une probabilité s'exprime par un nombre décimal compris entre 0 et 1, ou en pourcentage).</li>
+    <li>Si P(A) = 0, l'événement A est dit <strong>impossible</strong>.</li>
+    <li>Si P(A) = 1, l'événement A est dit <strong>certain</strong>.</li>
+  </ul>
+
+  <h3>2. Événement contraire</h3>
+  <p>L'événement contraire d'un événement A est l'événement qui se réalise lorsque A n'a pas lieu. Il est noté <strong>A&#773;</strong> (ou "non A").</p>
+
+  <div class="formula-box">
+    <strong>Probabilité de l'événement contraire :</strong><br>
+    P(A&#773;) = 1 &minus; P(A)
+  </div>
+
+  <p><em>Exemple type :</em> Dans un jeu standard de 32 cartes, on tire une carte au hasard. Soit A l'événement "Tirer une carte de cœur".<br>
+  Le jeu compte 8 cœurs sur 32 cartes au total :<br>
+  P(A) = 8 / 32 = <strong>0,25</strong> (soit 25 % de chance, ou une chance sur 4).<br>
+  L'événement contraire A&#773; est "Tirer une carte qui n'est pas un cœur" :<br>
+  P(A&#773;) = 1 &minus; 0,25 = <strong>0,75</strong> (soit 75 %).</p>
+
+  <!-- II. RÉUNION ET INTERSECTION D'ÉVÉNEMENTS -->
+  <h2>II. Réunion et intersection d'événements</h2>
+
+  <h3>1. Définitions formelles</h3>
+  <ul>
+    <li><strong>Intersection (A &cap; B) :</strong> ensemble des issues réalisant <strong>à la fois</strong> l'événement A <strong>ET</strong> l'événement B ("A inter B").</li>
+    <li><strong>Réunion (A &cup; B) :</strong> ensemble des issues réalisant l'événement A <strong>OU</strong> l'événement B (au moins l'un des deux, "A union B").</li>
+  </ul>
+
+  <div class="formula-box">
+    <strong>Formule de la réunion :</strong><br>
+    P(A &cup; B) = P(A) + P(B) &minus; P(A &cap; B)
+  </div>
+
+  <h3>2. Événements incompatibles</h3>
+  <p>Deux événements A et B sont dits <strong>incompatibles</strong> (ou disjoints) s'ils ne peuvent pas se produire en même temps (leur intersection est vide : A &cap; B = &empty;).</p>
+  <div class="formula-box">
+    Si A et B sont incompatibles, alors : <strong>P(A &cap; B) = 0</strong><br>
+    D'où : <strong>P(A &cup; B) = P(A) + P(B)</strong>
+  </div>
+
+  <h3>3. Application pratique avec tableau croisé d'effectifs</h3>
+  <p>Une population de 200 composants électroniques a été testée selon deux critères A et B :</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="text-align: left;">Critères</th>
+        <th>B</th>
+        <th>B&#773;</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>A</strong></td>
+        <td style="text-align: center;">40</td>
+        <td style="text-align: center;">90</td>
+        <td style="text-align: center;"><strong>130</strong></td>
+      </tr>
+      <tr>
+        <td><strong>A&#773;</strong></td>
+        <td style="text-align: center;">20</td>
+        <td style="text-align: center;">50</td>
+        <td style="text-align: center;"><strong>70</strong></td>
+      </tr>
+      <tr style="background-color: #f5f5f5;">
+        <td><strong>Total</strong></td>
+        <td style="text-align: center;"><strong>60</strong></td>
+        <td style="text-align: center;"><strong>140</strong></td>
+        <td style="text-align: center;"><strong>200</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Calculs des probabilités directes :</strong></p>
+  <ul>
+    <li>P(A) = 130 / 200 = <strong>0,65</strong></li>
+    <li>P(B) = 60 / 200 = <strong>0,30</strong></li>
+    <li>P(A &cap; B) = 40 / 200 = <strong>0,20</strong> (intersection visible à la croisée de la ligne A et de la colonne B)</li>
+    <li>P(A &cup; B) = P(A) + P(B) &minus; P(A &cap; B) = 0,65 + 0,30 &minus; 0,20 = <strong>0,75</strong><br>
+    <em>Vérification directe par le tableau :</em> (90 + 40 + 20) / 200 = 150 / 200 = <strong>0,75</strong>.</li>
+  </ul>
+
+  <!-- III. PROBABILITÉS CONDITIONNELLES -->
+  <h2>III. Probabilité conditionnelle</h2>
+
+  <h3>1. Définition</h3>
+  <p>La probabilité conditionnelle évalue la chance qu'un événement B se réalise lorsque l'on sait déjà qu'un événement A est réalisé. On la note <strong>P<sub>A</sub>(B)</strong> ou P(B|A), et on lit <em>"probabilité de B sachant A"</em>.</p>
+
+  <div class="formula-box">
+    <strong>Formule générale :</strong><br>
+    P<sub>A</sub>(B) = P(A &cap; B) / P(A) &nbsp;&nbsp;&nbsp;&nbsp;(avec P(A) &ne; 0)
+  </div>
+
+  <h3>2. Calcul à partir du tableau</h3>
+  <p>À partir du tableau précédent :</p>
+  <ul>
+    <li><strong>Probabilité de B sachant A :</strong> on restreint l'univers d'étude à la seule ligne de A (130 individus au total).<br>
+    P<sub>A</sub>(B) = P(A &cap; B) / P(A) = 0,20 / 0,65 &approx; <strong>0,308</strong> (ou directement : 40 / 130 &approx; 0,308).</li>
+    <li><strong>Probabilité de A sachant B :</strong> on restreint cette fois l'univers d'étude à la seule colonne de B (60 individus au total).<br>
+    P<sub>B</sub>(A) = P(A &cap; B) / P(B) = 0,20 / 0,30 &approx; <strong>0,667</strong> (ou directement : 40 / 60 &approx; 0,667).</li>
+  </ul>
+
+  <!-- IV. FLUCTUATION D'UNE FRÉQUENCE -->
+  <h2>IV. Fluctuation d'une fréquence et échantillonnage</h2>
+
+  <h3>1. Notions de fréquence et de probabilité</h3>
+  <p>Lorsqu'on répète N fois une expérience aléatoire de façon indépendante, la <strong>fréquence observée f</strong> d'un événement correspond au quotient :</p>
+  <div class="formula-box">
+    f = (Nombre de fois où l'événement apparaît) / N
+  </div>
+  <ul>
+    <li>D'un échantillon à l'autre (pour une même taille N), la fréquence f varie : c'est le phénomène de <strong>fluctuation d'échantillonnage</strong>.</li>
+    <li><strong>Loi des grands nombres :</strong> Lorsque le nombre N de répétitions devient très grand, la fréquence observée f se rapproche et se stabilise autour de la probabilité théorique p de l'événement.</li>
+  </ul>
+
+  <h3>2. Intervalle de fluctuation (au seuil de 95 %)</h3>
+  <p>Pour un échantillon de taille N &ge; 30 et une probabilité théorique p comprise entre 0,2 et 0,8, la fréquence observée f appartient, dans environ 95 % des cas, à l'intervalle :</p>
+  <div class="formula-box">
+    <strong>Intervalle de fluctuation :</strong><br>
+    I = [ p &minus; 1 / &radic;N &nbsp;;&nbsp; p + 1 / &radic;N ]
+  </div>
+  <p>Cet intervalle permet de contrôler la conformité d'une production ou de valider la représentativité d'un lot.</p>
+
+  <!-- V. EXERCICES D'ENTRAÎNEMENT -->
+  <h2>V. Applications numériques et entraînements</h2>
+
+  <div class="exercise-box">
+    <div class="exercise-title">Exercice 1 : Contrôle qualité en atelier (Tableau croisé)</div>
+    <p>Une entreprise fabrique des pièces métalliques sur deux chaînes automatiques distinctes (C1 et C2). Un contrôle d'un lot de 500 pièces révèle que 15 pièces présentent un défaut (événement D) :</p>
+    <ul>
+      <li>300 pièces proviennent de la chaîne C1.</li>
+      <li>9 pièces parmi celles venant de C1 présentent un défaut.</li>
+    </ul>
+    <p><strong>Travail à faire :</strong></p>
+    <ol>
+      <li>Compléter le tableau croisé d'effectifs ci-dessous.</li>
+      <li>Calculer la probabilité qu'une pièce prise au hasard vienne de C2, notée P(C2).</li>
+      <li>Calculer la probabilité qu'une pièce prise au hasard présente un défaut, notée P(D).</li>
+      <li>Calculer P(C1 &cap; D).</li>
+      <li>Sachant qu'une pièce provient de la chaîne C2, quelle est la probabilité qu'elle présente un défaut ? Noter et calculer P<sub>C2</sub>(D).</li>
+    </ol>
+
+    <table style="max-width: 500px; margin: 10px auto;">
+      <thead>
+        <tr>
+          <th>Chaîne</th>
+          <th>D (Défaut)</th>
+          <th>D&#773; (Conforme)</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>C1</strong></td>
+          <td style="text-align: center;">9</td>
+          <td style="text-align: center;">...</td>
+          <td style="text-align: center;">300</td>
+        </tr>
+        <tr>
+          <td><strong>C2</strong></td>
+          <td style="text-align: center;">...</td>
+          <td style="text-align: center;">...</td>
+          <td style="text-align: center;">...</td>
+        </tr>
+        <tr style="background-color: #f5f5f5;">
+          <td><strong>Total</strong></td>
+          <td style="text-align: center;">15</td>
+          <td style="text-align: center;">...</td>
+          <td style="text-align: center;">500</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="correction-box">
+      <p class="correction-title">Corrigé détaillé de l'exercice 1 :</p>
+      <p style="margin: 0;">
+        <strong>1. Tableau complété :</strong><br>
+        - C1 &cap; D&#773; = 300 &minus; 9 = <strong>291</strong><br>
+        - Total C2 = 500 &minus; 300 = <strong>200</strong><br>
+        - C2 &cap; D = 15 &minus; 9 = <strong>6</strong><br>
+        - C2 &cap; D&#773; = 200 &minus; 6 = <strong>194</strong><br>
+        - Total D&#773; = 291 + 194 = <strong>485</strong><br><br>
+        <strong>2. Probabilité P(C2) :</strong> P(C2) = 200 / 500 = <span class="highlight">0,40</span> (soit 40 %).<br>
+        <strong>3. Probabilité P(D) :</strong> P(D) = 15 / 500 = <span class="highlight">0,03</span> (soit 3 %).<br>
+        <strong>4. Probabilité P(C1 &cap; D) :</strong> P(C1 &cap; D) = 9 / 500 = <span class="highlight">0,018</span> (soit 1,8 %).<br>
+        <strong>5. Probabilité conditionnelle P<sub>C2</sub>(D) :</strong> P<sub>C2</sub>(D) = (Nombre de pièces C2 avec défaut) / (Total pièces C2) = 6 / 200 = <span class="highlight">0,03</span> (soit 3 %).
+      </p>
+    </div>
+  </div>
+
+  <div class="exercise-box">
+    <div class="exercise-title">Exercice 2 : Fluctuation d'échantillonnage</div>
+    <p>Une machine est réglée pour produire 5 % de pièces non conformes (p = 0,05). On prélève un échantillon de N = 100 pièces dans la production du matin et on compte 8 pièces défectueuses.</p>
+    <ol>
+      <li>Calculer la fréquence observée f de pièces défectueuses dans cet échantillon.</li>
+      <li>Calculer l'intervalle de fluctuation I = [ p &minus; 1 / &radic;N &nbsp;;&nbsp; p + 1 / &radic;N ] au seuil de 95 %. (On admettra la formule utilisable pour cet effectif).</li>
+      <li>La proportion observée remet-elle en cause le bon réglage de la machine ? Conclure.</li>
+    </ol>
+
+    <div class="correction-box">
+      <p class="correction-title">Corrigé détaillé de l'exercice 2 :</p>
+      <p style="margin: 0;">
+        <strong>1. Fréquence observée :</strong> f = 8 / 100 = <span class="highlight">0,08</span>.<br>
+        <strong>2. Intervalle de fluctuation :</strong><br>
+        1 / &radic;N = 1 / &radic;100 = 1 / 10 = 0,10.<br>
+        Borne inférieure = p &minus; 0,10 = 0,05 &minus; 0,10 = &minus;0,05 &rarr; ramenée à 0 car une fréquence ne peut être négative.<br>
+        Borne supérieure = p + 0,10 = 0,05 + 0,10 = 0,15.<br>
+        Soit l'intervalle <strong>I = [ 0 ; 0,15 ]</strong>.<br>
+        <strong>3. Conclusion :</strong> La fréquence observée f = 0,08 appartient bien à l'intervalle de fluctuation [ 0 ; 0,15 ]. L'écart constaté s'explique par la simple fluctuation d'échantillonnage. Il n'y a donc pas lieu de considérer la machine comme déréglée au seuil de 95 %.
+      </p>
+    </div>
+  </div>
+
+  <!-- VI. FORMULAIRE MÉMO -->
+  <h2>VI. Formulaire et mémo récapitulatif</h2>
+  <table class="table-memo">
+    <thead>
+      <tr>
+        <th style="width: 25%; text-align: left;">Notion</th>
+        <th style="width: 40%; text-align: left;">Formule mathématique</th>
+        <th style="width: 35%; text-align: left;">Moyen mémo / Remarque</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Événement contraire</strong></td>
+        <td>P(A&#773;) = 1 &minus; P(A)</td>
+        <td>Somme toujours égale à 1.</td>
+      </tr>
+      <tr style="background-color: #f5f5f5;">
+        <td><strong>Réunion ("OU")</strong></td>
+        <td>P(A &cup; B) = P(A) + P(B) &minus; P(A &cap; B)</td>
+        <td>On soustrait l'intersection pour éviter de la compter deux fois.</td>
+      </tr>
+      <tr>
+        <td><strong>Événements incompatibles</strong></td>
+        <td>P(A &cap; B) = 0 &rArr; P(A &cup; B) = P(A) + P(B)</td>
+        <td>Aucune issue commune possible.</td>
+      </tr>
+      <tr style="background-color: #f5f5f5;">
+        <td><strong>Conditionnelle</strong></td>
+        <td>P<sub>A</sub>(B) = P(A &cap; B) / P(A)</td>
+        <td>On divise toujours par la probabilité de l'événement qui est "sachant".</td>
+      </tr>
+      <tr>
+        <td><strong>Intervalle de fluctuation</strong></td>
+        <td>I = [ p &minus; 1 / &radic;N ; p + 1 / &radic;N ]</td>
+        <td>Valable au seuil de 95 % pour évaluer la conformité d'un échantillon.</td>
+      </tr>
+    </tbody>
+  </table>
+
+</body>
+</html>
