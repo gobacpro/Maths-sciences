@@ -425,6 +425,318 @@
         </div>
     </div>
 
+    <!-- MODULE QCM INTERACTIF (20 QUESTIONS) -->
+    <h2 class="section-title">📝 Auto-évaluation : 20 questions chrono</h2>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+            <p style="color: var(--text-light); font-size: 0.95rem;">Teste tes connaissances sur la puissance, l'énergie et les unités de mesure.</p>
+            <div id="score-box" style="font-weight: 800; font-size: 1.1rem; color: var(--sciences); background: #ecfdf5; padding: 6px 14px; border-radius: 8px; border: 1px solid #a7f3d0;">
+                Score : <span id="current-score">0</span> / 20
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Les questions seront générées dynamiquement par le script -->
+        </div>
+
+        <div id="quiz-finish" style="display: none; text-align: center; padding: 25px 15px; background: #f8fafc; border-radius: 8px; border: 2px dashed #cbd5e1; margin-top: 20px;">
+            <h3 style="color: var(--secondary); margin-bottom: 8px; font-size: 1.3rem;">Bilan du test terminé !</h3>
+            <p id="quiz-final-text" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 15px;"></p>
+            <button type="button" class="btn-calc" style="max-width: 250px; margin: 0 auto; display: block;" onclick="reinitialiserQuiz()">Recommencer le test</button>
+        </div>
+    </div>
+
+    <style>
+        /* Styles spécifiques au Quiz */
+        .quiz-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .quiz-item.unanswered { border-left: 4px solid #cbd5e1; }
+        .quiz-item.correct { border-left: 4px solid var(--success); }
+        .quiz-item.wrong { border-left: 4px solid #e11d48; }
+
+        .quiz-question {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        @media(min-width: 600px) {
+            .quiz-options { grid-template-columns: 1fr 1fr; }
+        }
+
+        .btn-option {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            color: var(--text);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        .btn-option:hover:not(:disabled) {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .btn-option.opt-correct {
+            background: #dcfce7 !important;
+            border-color: var(--success) !important;
+            color: #166534 !important;
+            font-weight: 700;
+        }
+        .btn-option.opt-wrong {
+            background: #fee2e2 !important;
+            border-color: #e11d48 !important;
+            color: #991b1b !important;
+            font-weight: 700;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+        .quiz-feedback.show-correct {
+            display: block;
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .quiz-feedback.show-wrong {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+    </style>
+
+    <script>
+        const banqueQuestions = [
+            {
+                q: "1. Quelle grandeur traduit la capacité instantanée d'un récepteur à convertir de l'énergie ?",
+                opts: ["L'énergie électrique", "La puissance électrique", "La tension électrique", "L'intensité"],
+                rep: 1,
+                exp: "La puissance électrique est un débit instantané, alors que l'énergie est une quantité globale cumulée dans le temps."
+            },
+            {
+                q: "2. Quelle formule relie la puissance active à la tension et à l'intensité (en continu ou récepteur résistif) ?",
+                opts: ["P = U / I", "P = U × I", "P = E × t", "P = I / U"],
+                rep: 1,
+                exp: "La formule de base de la puissance électrique est P = U × I (avec P en Watts, U en Volts et I en Ampères)."
+            },
+            {
+                q: "3. Quelle est l'unité de la puissance électrique dans le Système International (SI) ?",
+                opts: ["Le Wattheure (Wh)", "Le Joule (J)", "Le Kilowatt (kW)", "Le Watt (W)"],
+                rep: 3,
+                exp: "L'unité officielle du Système International pour la puissance est le Watt (symbole W)."
+            },
+            {
+                q: "4. Quelle relation lie l'énergie, la puissance et le temps ?",
+                opts: ["E = P × t", "E = P / t", "E = U × I × t²", "E = t / P"],
+                rep: 0,
+                exp: "L'énergie est le produit de la puissance par le temps d'utilisation : E = P × t."
+            },
+            {
+                q: "5. Dans le Système International (SI), quelle est l'unité de l'énergie électrique ?",
+                opts: ["Le Kilowattheure (kWh)", "Le Watt (W)", "Le Joule (J)", "Le Volt-ampère (VA)"],
+                rep: 2,
+                exp: "L'unité SI de l'énergie est le Joule (J). Le kilowattheure est une unité d'usage commercial."
+            },
+            {
+                q: "6. Combien de secondes contient exactement 1 heure ?",
+                opts: ["60 s", "600 s", "3 600 s", "86 400 s"],
+                rep: 2,
+                exp: "1 h = 60 minutes = 60 × 60 secondes = 3 600 s."
+            },
+            {
+                q: "7. À combien de Joules correspond 1 Wattheure (1 Wh) ?",
+                opts: ["1 000 J", "3 600 J", "60 J", "3 600 000 J"],
+                rep: 1,
+                exp: "1 Wh = 1 W × 3 600 s = 3 600 J."
+            },
+            {
+                q: "8. À combien de Joules équivaut 1 kilowattheure (1 kWh) ?",
+                opts: ["1 000 J", "3 600 J", "3 600 000 J (3,6 MJ)", "360 000 J"],
+                rep: 2,
+                exp: "1 kWh = 1 000 Wh = 1 000 × 3 600 J = 3 600 000 J (soit 3,6 MJ)."
+            },
+            {
+                q: "9. Quel appareil permet de mesurer directement la puissance active absorbée par un récepteur ?",
+                opts: ["Un voltmètre", "Un wattmètre", "Un joulemètre", "Un ampèremètre"],
+                rep: 1,
+                exp: "Le wattmètre mesure simultanément la tension et l'intensité pour indiquer la puissance active en Watts."
+            },
+            {
+                q: "10. Quel équipement situé en tête d'installation mesure l'énergie électrique facturée à l'abonné ?",
+                opts: ["Un disjoncteur différentiel", "Un wattmètre d'atelier", "Un compteur électrique (ex: Linky)", "Un multimètre"],
+                rep: 2,
+                exp: "Le compteur électrique (comme le compteur Linky) enregistre la consommation totale d'énergie en kWh."
+            },
+            {
+                q: "11. Un appareil de 2 300 W branché sous une tension nominale de 230 V absorbe une intensité de :",
+                opts: ["0,1 A", "23 A", "10 A", "529 A"],
+                rep: 2,
+                exp: "I = P / U = 2 300 / 230 = 10 A."
+            },
+            {
+                q: "12. Un convecteur de 1 500 W fonctionne pendant 2 heures. Quelle énergie consomme-t-il en kWh ?",
+                opts: ["3 000 kWh", "3 kWh", "0,75 kWh", "30 kWh"],
+                rep: 1,
+                exp: "P = 1 500 W = 1,5 kW. E = P × t = 1,5 kW × 2 h = 3 kWh."
+            },
+            {
+                q: "13. Une lampe de 100 W reste allumée pendant 10 secondes. Quelle est son énergie consommée en Joules ?",
+                opts: ["10 J", "100 J", "1 000 J", "36 000 J"],
+                rep: 2,
+                exp: "En unités SI (W et s) : E = P × t = 100 W × 10 s = 1 000 J (soit 1 kJ)."
+            },
+            {
+                q: "14. Où trouve-t-on obligatoirement la puissance nominale constructeur d'un équipement ?",
+                opts: ["Sur le contrat d'électricité", "Sur la plaque signalétique de l'appareil", "Sur le tableau électrique uniquement", "Sur le disjoncteur général"],
+                rep: 1,
+                exp: "La puissance nominale est une caractéristique constructeur obligatoirement gravée ou collée sur la plaque signalétique."
+            },
+            {
+                q: "15. Pour calculer l'énergie E en Joules (J), le temps t doit obligatoirement être exprimé en :",
+                opts: ["Minutes (min)", "Heures (h)", "Secondes (s)", "Jours (j)"],
+                rep: 2,
+                exp: "1 Joule = 1 Watt × 1 seconde. Le temps doit impérativement être converti en secondes."
+            },
+            {
+                q: "16. Pour calculer l'énergie E en kilowattheures (kWh), la puissance P et le temps t doivent être en :",
+                opts: ["Watts (W) et secondes (s)", "Kilowatts (kW) et heures (h)", "Watts (W) et heures (h)", "Kilowatts (kW) et minutes (min)"],
+                rep: 1,
+                exp: "Dans le système métier/facturation : E (kWh) = P (kW) × t (h)."
+            },
+            {
+                q: "17. Quel appareil de laboratoire est conçu pour mesurer l'énergie en Joules lors de TP de physique ?",
+                opts: ["Un joulemètre", "Un wattmètre", "Un ohmmètre", "Un oscilloscope"],
+                rep: 0,
+                exp: "Le joulemètre est spécialement conçu pour mesurer directement l'énergie en Joules (J) lors d'expérimentations."
+            },
+            {
+                q: "18. Un moteur absorbe 500 W pendant 30 minutes. Quelle est l'énergie consommée en Wattheures (Wh) ?",
+                opts: ["15 000 Wh", "250 Wh", "500 Wh", "1 000 Wh"],
+                rep: 1,
+                exp: "30 minutes = 0,5 heure. E = 500 W × 0,5 h = 250 Wh (soit 0,25 kWh)."
+            },
+            {
+                q: "19. Si on multiplie directement des Watts par des minutes, quelle unité obtient-on ?",
+                opts: ["Des Joules", "Des Wattheures", "Une unité non normalisée nécessitant une conversion", "Des Kilowattheures"],
+                rep: 2,
+                exp: "C'est l'erreur fréquente E1 : multiplier des Watts par des minutes donne des W·min, une grandeur inutilisable sans conversion vers les secondes ou les heures."
+            },
+            {
+                q: "20. Un appareil consomme 7,2 MJ. À combien de kilowattheures cela correspond-il ?",
+                opts: ["2 kWh", "7,2 kWh", "7 200 kWh", "0,5 kWh"],
+                rep: 0,
+                exp: "Puisque 1 kWh = 3,6 MJ, on a 7,2 MJ / 3,6 MJ = 2 kWh."
+            }
+        ];
+
+        let score = 0;
+        let questionsRepondues = 0;
+
+        function afficherQuiz() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = '';
+
+            banqueQuestions.forEach((item, index) => {
+                const qDiv = document.createElement('div');
+                qDiv.className = 'quiz-item unanswered';
+                qDiv.id = `q-item-${index}`;
+
+                let html = `<div class="quiz-question">${item.q}</div>`;
+                html += `<div class="quiz-options">`;
+                item.opts.forEach((opt, optIndex) => {
+                    html += `<button type="button" class="btn-option" onclick="validerReponse(${index}, ${optIndex}, this)">${opt}</button>`;
+                });
+                html += `</div>`;
+                html += `<div id="feedback-${index}" class="quiz-feedback"></div>`;
+
+                qDiv.innerHTML = html;
+                container.appendChild(qDiv);
+            });
+        }
+
+        function validerReponse(qIndex, choixIndex, boutonClique) {
+            const qItem = document.getElementById(`q-item-${qIndex}`);
+            const feedback = document.getElementById(`feedback-${qIndex}`);
+            const options = qItem.querySelectorAll('.btn-option');
+            const data = banqueQuestions[qIndex];
+
+            // Désactiver tous les boutons de cette question
+            options.forEach(btn => btn.disabled = true);
+            questionsRepondues++;
+
+            if (choixIndex === data.rep) {
+                score++;
+                boutonClique.classList.add('opt-correct');
+                qItem.classList.remove('unanswered');
+                qItem.classList.add('correct');
+                feedback.className = 'quiz-feedback show-correct';
+                feedback.innerHTML = `<strong>Bonne réponse !</strong> ${data.exp}`;
+            } else {
+                boutonClique.classList.add('opt-wrong');
+                options[data.rep].classList.add('opt-correct');
+                qItem.classList.remove('unanswered');
+                qItem.classList.add('wrong');
+                feedback.className = 'quiz-feedback show-wrong';
+                feedback.innerHTML = `<strong>Faux !</strong> ${data.exp}`;
+            }
+
+            document.getElementById('current-score').innerText = score;
+
+            if (questionsRepondues === banqueQuestions.length) {
+                conclureQuiz();
+            }
+        }
+
+        function conclureQuiz() {
+            const finishZone = document.getElementById('quiz-finish');
+            const finalText = document.getElementById('quiz-final-text');
+            finishZone.style.display = 'block';
+
+            if (score >= 16) {
+                finalText.innerHTML = `Excellent résultat : <span style="color: var(--success);">${score} / 20</span> ! Tu maîtrises parfaitement le cours et les conversions d'atelier.`;
+            } else if (score >= 10) {
+                finalText.innerHTML = `Résultat convenable : <span style="color: #ea580c;">${score} / 20</span>. Revois attentivement les formules et les unités en bas de page.`;
+            } else {
+                finalText.innerHTML = `Score insuffisant : <span style="color: #e11d48;">${score} / 20</span>. Consulte la section « Erreurs fréquentes » avant de retenter ta chance.`;
+            }
+        }
+
+        function reinitialiserQuiz() {
+            score = 0;
+            questionsRepondues = 0;
+            document.getElementById('current-score').innerText = '0';
+            document.getElementById('quiz-finish').style.display = 'none';
+            afficherQuiz();
+        }
+
+        // Chargement au démarrage
+        document.addEventListener('DOMContentLoaded', afficherQuiz);
+    </script>
+    
     <!-- ÉTAPE 3 : CCF -->
     <h2 class="section-title">🔴 Étape 3 : Objectif CCF</h2>
     <div class="card">
