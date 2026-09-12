@@ -3,7 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- MÉTADONNÉES DE COMMUNICATION & PARTAGE (Discord, WhatsApp, ENT) -->
     <title>1ère Pro MELEC — Distinguer Énergie et Puissance Électrique</title>
+    <meta name="description" content="Module d'apprentissage et simulateur de calculs d'énergie et puissance électrique pour les élèves de 1ère Bac Pro MELEC.">
+    <meta property="og:title" content="Sciences Pro — Énergie vs Puissance Électrique">
+    <meta property="og:description" content="Fiches synthèses, fiches remédiations d'erreurs et simulateur de consommation d'atelier.">
+    <meta property="og:type" content="website">
+
     <style>
         :root {
             --primary: #2563eb;
@@ -16,7 +23,6 @@
             --text: #334155;
             --text-light: #64748b;
             --success: #16a34a;
-            --warning: #ea580c;
             --radius: 12px;
         }
 
@@ -72,17 +78,17 @@
             border: 1px solid #e2e8f0; 
         }
 
-/* Remédiations / Codes copies */
+        /* Remédiations / Codes copies (Bordure Jaune Ambre Accessible) */
         .remediation-block { 
-            border-left: 5px solid #eab308; /* Jaune ambre équilibré */
-            background: #fefce8;            /* Fond jaune très clair assorti */
+            border-left: 5px solid #eab308;
+            background: #fefce8;
             padding: 16px; 
             border-radius: 0 8px 8px 0; 
             margin-bottom: 15px; 
             scroll-margin-top: 30px; 
         }
         .remediation-block h4 { 
-            color: #854d0e;                 /* Titre ocre/brun foncé pour rester lisible */
+            color: #854d0e;
             margin-bottom: 6px; 
             display: flex; 
             align-items: center; 
@@ -94,7 +100,7 @@
             color: #713f12; 
         }
 
-        /* Compétences */
+        /* Référentiel compétences */
         details summary { 
             font-weight: 700; 
             cursor: pointer; 
@@ -117,6 +123,32 @@
         .bg-rea  { background: #dcfce7; color: #166534; }
         .bg-val  { background: #fef9c3; color: #854d0e; }
 
+        /* Formules */
+        .formula-box {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .formula-card {
+            flex: 1;
+            min-width: 220px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+        .formula-card h4 { color: var(--sciences); margin-bottom: 4px; font-size: 0.95rem; }
+        .formula-card span { font-size: 1.3rem; font-weight: 800; color: var(--secondary); }
+
+        /* Tableaux */
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 500px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left; font-size: 0.9rem; }
+        th { background: #f1f5f9; color: var(--secondary); font-weight: 700; }
+
         /* Liens PDF */
         .resource-link { 
             display: flex; 
@@ -138,33 +170,7 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
         }
 
-        /* Tableaux de cours */
-        .table-wrap { overflow-x: auto; margin: 15px 0; }
-        table { width: 100%; border-collapse: collapse; background: white; min-width: 500px; }
-        th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left; font-size: 0.9rem; }
-        th { background: #f1f5f9; color: var(--secondary); font-weight: 700; }
-
-        /* Formules de synthèse */
-        .formula-box {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 15px 0;
-        }
-        .formula-card {
-            flex: 1;
-            min-width: 220px;
-            background: #ecfdf5;
-            border: 1px solid #a7f3d0;
-            border-radius: 8px;
-            padding: 14px;
-            text-align: center;
-        }
-        .formula-card h4 { color: var(--sciences); margin-bottom: 4px; font-size: 0.95rem; }
-        .formula-card span { font-size: 1.3rem; font-weight: 800; color: var(--secondary); }
-
-        /* Simulateur / Exerciceur */
+        /* Simulateur */
         .interactive-box { 
             background: #f8fafc; 
             border: 2px dashed #cbd5e1; 
@@ -201,11 +207,10 @@
             font-size: 1rem;
             cursor: pointer;
             transition: background 0.2s;
-            margin-top: 5px;
+            min-height: 48px;
         }
         .btn-calc:hover { background: var(--sciences-dark); }
 
-        /* Résultats de simulation */
         .results-box {
             background: #ffffff;
             border: 1px solid #e2e8f0;
@@ -252,10 +257,26 @@
 
     <header>
         <h1>Distinguer Énergie et Puissance Électrique</h1>
-        <p>1ère Bac Pro MELEC • Module : Énergie et Puissance</p>
+        <p>1ère Bac Pro MELEC • Sciences Physiques et Chimiques</p>
     </header>
 
-    <!-- ÉTAPE 1 : COURS -->
+    <!-- FICHES DE REMÉDIATION CIBLÉES PAR LES CODES COPIE -->
+    <div id="unites" class="remediation-block">
+        <h4>⚠️ E1 — Incohérence dans le système d'unités (E = P × t)</h4>
+        <p>Attention à la cohérence de tes grandeurs[cite: 1] ! Si le temps <strong>t</strong> est en secondes, l'énergie <strong>E</strong> sera en <strong>Joules (J)</strong>[cite: 1]. Si le temps est en heures, l'énergie sera en <strong>Wattheures (Wh)</strong> ou <strong>kWh</strong>[cite: 1]. Ne multiplie jamais directement des Watts par des minutes[cite: 1].</p>
+    </div>
+
+    <div id="loi-ohm" class="remediation-block">
+        <h4>⚠️ E2 — Confusion Puissance (P) et Énergie (E)</h4>
+        <p>La <strong>puissance (en Watts)</strong> est un débit instantané inscrit sur la plaque signalétique (capacité de conversion du matériel)[cite: 1]. L'<strong>énergie (en Joules ou kWh)</strong> représente la consommation globale accumulée sur la durée : elle dépend obligatoirement du temps de fonctionnement[cite: 1].</p>
+    </div>
+
+    <div id="conversion" class="remediation-block">
+        <h4>⚠️ E3 — Erreur de conversion kWh / Joules</h4>
+        <p>Rappel atelier : 1 heure = 3 600 secondes[cite: 1]. Par conséquent : <strong>1 Wh = 3 600 J</strong> et <strong>1 kWh = 3 600 000 J = 3,6 MJ</strong>[cite: 1]. Pour passer des kWh aux Joules, multiplie toujours par 3 600 000[cite: 1].</p>
+    </div>
+
+    <!-- ÉTAPE 1 : LE COURS -->
     <h2 class="section-title">🟢 Étape 1 : Je comprends (Cours)</h2>
 
     <div class="card">
@@ -265,38 +286,37 @@
                 <ul class="skills-list">
                     <li>
                         <span class="badge-skill bg-appr">S'approprier</span> 
-                        Identifier sur une plaque signalétique la puissance nominale <i>P</i>, la tension <i>U</i> et l'intensité <i>I</i>.
+                        Identifier sur une plaque constructeur la puissance nominale <i>P</i>, la tension <i>U</i> et l'intensité <i>I</i>[cite: 1].
                     </li>
                     <li>
                         <span class="badge-skill bg-ana">Analyser</span> 
-                        Choisir le système d'unités adapté (SI : Watts, Secondes, Joules OU Métier : kW, Heures, kWh).
+                        Choisir le système d'unités pertinent (SI : Watts, Secondes, Joules OU Métier : kW, Heures, kWh)[cite: 1].
                     </li>
                     <li>
                         <span class="badge-skill bg-rea">Réaliser</span> 
-                        Appliquer les relations <i>P = U × I</i> et <i>E = P × t</i>, et effectuer les conversions nécessaires.
+                        Appliquer les relations <i>P = U × I</i> et <i>E = P × t</i>, et convertir les durées sans erreur[cite: 1].
                     </li>
                     <li>
                         <span class="badge-skill bg-val">Valider / Communiquer</span> 
-                        Contrôler la conformité de l'intensité absorbée ou évaluer le coût énergétique facturé par le compteur d'abonné.
+                        Contrôler la conformité du calibre des protections ou évaluer la consommation enregistrée par le compteur d'abonné[cite: 1].
                     </li>
                 </ul>
             </div>
         </details>
     </div>
 
-    <!-- Synthèse visuelle des formules -->
     <div class="card">
         <h3 style="color: var(--secondary); margin-bottom: 12px; font-size: 1.1rem;">⚡ Formules fondamentales</h3>
         <div class="formula-box">
             <div class="formula-card">
                 <h4>Puissance Active (continu / résistif)</h4>
                 <span>P = U × I</span>
-                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">P en W | U en V | I en A</p>
+                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">P en W | U en V | I en A[cite: 1]</p>
             </div>
             <div class="formula-card">
                 <h4>Énergie Électrique Absorbée</h4>
                 <span>E = P × t</span>
-                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">E en J (si t en s) ou Wh (si t en h)</p>
+                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">E en J (si t en s) ou Wh (si t en h)[cite: 1]</p>
             </div>
         </div>
 
@@ -307,7 +327,7 @@
                         <th>Grandeur</th>
                         <th>Symbole</th>
                         <th>Unité Système International (SI)</th>
-                        <th>Unité Métier / Facturation</th>
+                        <th>Unité Facturation / Métier</th>
                         <th>Appareil de mesure</th>
                     </tr>
                 </thead>
@@ -315,48 +335,48 @@
                     <tr>
                         <td><strong>Tension</strong></td>
                         <td>U</td>
-                        <td>Volt (V)</td>
-                        <td>Volt (V)</td>
+                        <td>Volt (V)[cite: 1]</td>
+                        <td>Volt (V)[cite: 1]</td>
                         <td>Voltmètre</td>
                     </tr>
                     <tr>
                         <td><strong>Intensité</strong></td>
                         <td>I</td>
-                        <td>Ampère (A)</td>
-                        <td>Ampère (A)</td>
-                        <td>Ampèremètre / Pince</td>
+                        <td>Ampère (A)[cite: 1]</td>
+                        <td>Ampère (A)[cite: 1]</td>
+                        <td>Ampèremètre / Pince multimètre</td>
                     </tr>
                     <tr>
                         <td><strong>Puissance</strong></td>
                         <td>P</td>
-                        <td>Watt (W)</td>
-                        <td>Kilowatt (kW)</td>
-                        <td>Wattmètre</td>
+                        <td>Watt (W)[cite: 1]</td>
+                        <td>Kilowatt (kW)[cite: 1]</td>
+                        <td>Wattmètre[cite: 1]</td>
                     </tr>
                     <tr>
                         <td><strong>Énergie</strong></td>
                         <td>E</td>
-                        <td>Joule (J)</td>
-                        <td>Kilowattheure (kWh)</td>
-                        <td>Joulemètre / Compteur Linky</td>
+                        <td>Joule (J)[cite: 1]</td>
+                        <td>Kilowattheure (kWh)[cite: 1]</td>
+                        <td>Compteur d'abonné (Linky) / Joulemètre[cite: 1]</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <a href="COURS - Distinguer Énergie et Puissance Électrique - 1ère MELEC.pdf" download class="resource-link" style="margin-top: 15px;">
-            <span>📄 Télécharger le cours complet en PDF (LP Latécoère)</span>
+            <span>📄 Télécharger le cours complet en PDF</span>
             <span>📥</span>
         </a>
     </div>
 
-    <!-- ÉTAPE 2 : CALCULATEUR / EXERCICEUR -->
+    <!-- ÉTAPE 2 : EXERCICEUR / SIMULATEUR -->
     <h2 class="section-title">🔵 Étape 2 : Atelier de calcul & Simulation métier</h2>
 
     <div class="card">
         <div class="interactive-box">
             <h3 style="color: var(--secondary); margin-bottom: 4px;">Calculateur de Consommation d'un Récepteur</h3>
-            <p style="color: var(--text-light); font-size: 0.9rem;">Saisis les caractéristiques de l'équipement pour vérifier tes calculs d'atelier.</p>
+            <p style="color: var(--text-light); font-size: 0.9rem;">Saisis les paramètres de fonctionnement pour vérifier tes résultats d'exercice ou de TP.</p>
 
             <form class="calc-form" onsubmit="event.preventDefault(); calculerEnergie();">
                 <div class="form-group">
@@ -383,12 +403,12 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="input-voltage">Tension d'alimentation nominale :</label>
+                    <label for="input-voltage">Tension nominale :</label>
                     <select id="input-voltage">
-                        <option value="230" selected>230 V (Monophasé réseau)</option>
+                        <option value="230" selected>230 V (Monophasé réseau)[cite: 1]</option>
                         <option value="400">400 V (Triphasé)</option>
-                        <option value="24">24 V (TBT Atelier)</option>
-                        <option value="12">12 V (Batterie continu)</option>
+                        <option value="24">24 V (TBT Commande)</option>
+                        <option value="12">12 V (Continu)</option>
                     </select>
                 </div>
                 <div class="form-group" style="justify-content: flex-end;">
@@ -400,7 +420,7 @@
                 <h4 style="color: var(--sciences); font-size: 1.05rem; border-bottom: 2px solid #d1fae5; padding-bottom: 6px;">Résultats de la conversion</h4>
                 <div class="results-grid">
                     <div class="res-item">
-                        <h5>Intensité nominale estimée (I = P / U)</h5>
+                        <h5>Intensité nominale absorbée (I = P / U)</h5>
                         <p id="res-intensity">-- A</p>
                     </div>
                     <div class="res-item">
@@ -412,7 +432,7 @@
                         <p id="res-wh">-- Wh</p>
                     </div>
                     <div class="res-item">
-                        <h5>Énergie en Joules (J & MJ)</h5>
+                        <h5>Énergie en Joules (J / MJ)</h5>
                         <p id="res-joules">-- J</p>
                     </div>
                 </div>
@@ -421,10 +441,10 @@
         </div>
     </div>
 
-    <!-- ÉTAPE 3 : ÉVALUATION CCF -->
+    <!-- ÉTAPE 3 : CCF -->
     <h2 class="section-title">🔴 Étape 3 : Objectif CCF</h2>
     <div class="card">
-        <p style="margin-bottom: 15px;">Entraînement type certification : exploitation de plaques signalétiques d'équipements réels (moteurs, convecteurs, chauffe-eau) et dimensionnement des protections.</p>
+        <p style="margin-bottom: 15px;">Sujet d'entraînement type certification : lecture de plaques signalétiques industrielles et calcul du coût de fonctionnement.</p>
         <a href="TD_Evaluation_Energie_Puissance_1ere_MELEC.pdf" download class="resource-link">
             <span>📝 Télécharger le Sujet d'entraînement CCF (PDF)</span>
             <span>📥</span>
@@ -432,7 +452,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 — Espace de formation Sciences Appliquées MELEC • LP Latécoère.</p>
+        <p>&copy; 2026 — Plateforme d'apprentissage Maths & Sciences Pro.</p>
     </footer>
 </div>
 
@@ -449,10 +469,10 @@
             return;
         }
 
-        // 1. Conversion de la puissance en Watts (W)
+        // Conversion P en Watts (W)
         const pWatts = (pUnit === 'kW') ? pInput * 1000 : pInput;
 
-        // 2. Conversion du temps en secondes (s) et en heures (h)
+        // Conversion temps en secondes et en heures
         let tSecondes = 0;
         let tHeures = 0;
 
@@ -467,13 +487,13 @@
             tHeures = tInput / 3600;
         }
 
-        // 3. Calculs des grandeurs
+        // Calculs grandeurs électriques
         const intensite = pWatts / uVal;
         const energieJoules = pWatts * tSecondes;
         const energieWh = pWatts * tHeures;
         const energieKwh = energieWh / 1000;
 
-        // 4. Affichage des résultats
+        // Injection dans le DOM
         document.getElementById('res-intensity').innerText = intensite.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " A";
         document.getElementById('res-kwh').innerText = energieKwh.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 4 }) + " kWh";
         document.getElementById('res-wh').innerText = energieWh.toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 2 }) + " Wh";
@@ -485,26 +505,11 @@
         document.getElementById('res-joules').innerText = joulesFormatte;
 
         document.getElementById('res-detail').innerHTML = 
-            `<strong>Détail du calcul :</strong> E = ${pWatts.toLocaleString('fr-FR')} W × ${tSecondes.toLocaleString('fr-FR')} s = ${energieJoules.toLocaleString('fr-FR')} J ` +
-            `| Ou avec le système métier : E = ${(pWatts/1000).toLocaleString('fr-FR')} kW × ${tHeures.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} h = ${energieKwh.toLocaleString('fr-FR', { maximumFractionDigits: 3 })} kWh.`;
+            `<strong>Détail :</strong> E = ${pWatts.toLocaleString('fr-FR')} W × ${tSecondes.toLocaleString('fr-FR')} s = ${energieJoules.toLocaleString('fr-FR')} J ` +
+            `| Formule commerciale : E = ${(pWatts/1000).toLocaleString('fr-FR')} kW × ${tHeures.toLocaleString('fr-FR', { maximumFractionDigits: 2 })} h = ${energieKwh.toLocaleString('fr-FR', { maximumFractionDigits: 3 })} kWh.`;
 
         document.getElementById('results-zone').style.display = 'block';
     }
-        <!-- FICHES DE REMÉDIATION CIBLÉES PAR CODES COPIE -->
-    <div id="unites" class="remediation-block">
-        <h4>⚠️ E1 — Incohérence dans le système d'unités (E = P × t)</h4>
-        <p>Attention à la cohérence de tes grandeurs ! Si le temps <strong>t</strong> est en secondes, l'énergie <strong>E</strong> sera en <strong>Joules (J)</strong>. Si le temps est en heures, l'énergie sera en <strong>Wattheures (Wh)</strong> ou <strong>kWh</strong>. Ne multiplie jamais des Watts par des minutes sans conversion préalable.</p>
-    </div>
-
-    <div id="loi-ohm" class="remediation-block">
-        <h4>⚠️ E2 — Confusion Puissance (P) et Énergie (E)</h4>
-        <p>La <strong>puissance (en Watts)</strong> est un débit instantané inscrit sur la plaque signalétique (capacité de l'appareil). L'<strong>énergie (en Joules ou kWh)</strong> représente la consommation globale accumulée sur la durée : elle dépend obligatoirement du temps d'utilisation.</p>
-    </div>
-
-    <div id="conversion" class="remediation-block">
-        <h4>⚠️ E3 — Erreur de conversion kWh / Joules</h4>
-        <p>Rappel atelier : 1 heure = 3 600 secondes. Par conséquent : <strong>1 Wh = 3 600 J</strong> et <strong>1 kWh = 3 600 000 J = 3,6 MJ</strong>. Pour passer des kWh aux Joules, multiplie par 3 600 000 (ne pas confondre avec 1 000).</p>
-    </div>
 </script>
 
 </body>
