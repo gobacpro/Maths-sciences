@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- MÉTADONNÉES DE COMMUNICATION & PARTAGE -->
+    <title>1ère Pro MELEC — Transporter l'énergie électrique</title>
+    <meta name="description" content="Cours interactif et simulateur sur le transformateur, le réseau THT et les pertes Joule en 1ère Bac Pro MELEC.">
+    <meta property="og:title" content="Sciences Pro — Transporter l'énergie sous forme électrique">
+    <meta property="og:description" content="Synthèse de cours, simulateur de pertes Joule et quiz d'auto-évaluation interactif.">
+    <meta property="og:type" content="website">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --sciences: #059669;
+            --sciences-dark: #047857;
+            --sciences-light: #d1fae5;
+            --secondary: #0f172a;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+            --success: #16a34a;
+            --warning: #ea580c;
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            line-height: 1.6; 
+            padding: 16px; 
+        }
+        .container { max-width: 850px; margin: 0 auto; }
+
+        /* Fil d'Ariane */
+        .nav-back { margin-bottom: 20px; }
+        .nav-back a { 
+            color: var(--sciences); 
+            text-decoration: none; 
+            font-weight: 700; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            font-size: 0.95rem;
+        }
+        .nav-back a:hover { text-decoration: underline; }
+
+        header { 
+            background: var(--card-bg); 
+            padding: 24px; 
+            border-radius: var(--radius); 
+            margin-bottom: 25px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04); 
+            border-left: 6px solid var(--sciences); 
+        }
+        header h1 { font-size: 1.7rem; color: var(--secondary); margin-bottom: 6px; font-weight: 800; }
+        header p { color: var(--text-light); font-size: 0.95rem; }
+
+        .section-title { 
+            font-size: 1.25rem; 
+            color: var(--secondary); 
+            margin: 30px 0 15px 0; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            border-radius: var(--radius); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03); 
+            border: 1px solid #e2e8f0; 
+        }
+
+        /* Compétences */
+        details summary { 
+            font-weight: 700; 
+            cursor: pointer; 
+            color: var(--sciences); 
+            padding: 6px 0; 
+            user-select: none;
+        }
+        .skills-list { list-style: none; padding-top: 12px; }
+        .skills-list li { margin-bottom: 12px; font-size: 0.92rem; }
+        .badge-skill { 
+            display: inline-block; 
+            padding: 3px 8px; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            font-size: 0.78rem; 
+            margin-right: 8px; 
+        }
+        .bg-appr { background: #fee2e2; color: #991b1b; }
+        .bg-ana  { background: #e0f2fe; color: #0369a1; }
+        .bg-rea  { background: #dcfce7; color: #166534; }
+        .bg-val  { background: #fef9c3; color: #854d0e; }
+
+        /* Formules de synthèse */
+        .formula-box {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .formula-card {
+            flex: 1;
+            min-width: 220px;
+            background: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+        .formula-card h4 { color: var(--sciences); margin-bottom: 4px; font-size: 0.95rem; }
+        .formula-card span { font-size: 1.3rem; font-weight: 800; color: var(--secondary); }
+
+        /* Tableaux */
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 500px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: left; font-size: 0.9rem; }
+        th { background: #f1f5f9; color: var(--secondary); font-weight: 700; }
+
+        /* Liens PDF */
+        .resource-link { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 14px 16px; 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            color: var(--secondary); 
+            font-weight: 600; 
+            transition: all 0.2s; 
+        }
+        .resource-link:hover { 
+            background: #ffffff; 
+            border-color: var(--sciences); 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+        }
+
+        /* Simulateur */
+        .interactive-box { 
+            background: #f8fafc; 
+            border: 2px dashed #cbd5e1; 
+            padding: 22px; 
+            border-radius: var(--radius); 
+        }
+        .calc-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+            text-align: left;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.85rem; font-weight: 700; color: var(--secondary); }
+        .form-group input, .form-group select {
+            padding: 10px 12px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--sciences);
+        }
+        .btn-calc {
+            grid-column: 1 / -1;
+            background: var(--sciences);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            min-height: 48px;
+        }
+        .btn-calc:hover { background: var(--sciences-dark); }
+
+        .results-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .res-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--sciences);
+        }
+        .res-item h5 { font-size: 0.8rem; color: var(--text-light); margin-bottom: 4px; text-transform: uppercase; }
+        .res-item p { font-size: 1.15rem; font-weight: 700; color: var(--secondary); }
+
+        /* Quiz */
+        .quiz-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .quiz-item.unanswered { border-left: 4px solid #cbd5e1; }
+        .quiz-item.correct { border-left: 4px solid var(--success); }
+        .quiz-item.wrong { border-left: 4px solid #e11d48; }
+
+        .quiz-question {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        @media(min-width: 600px) {
+            .quiz-options { grid-template-columns: 1fr 1fr; }
+        }
+
+        .btn-option {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            color: var(--text);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        .btn-option:hover:not(:disabled) {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .btn-option.opt-correct {
+            background: #dcfce7 !important;
+            border-color: var(--success) !important;
+            color: #166534 !important;
+            font-weight: 700;
+        }
+        .btn-option.opt-wrong {
+            background: #fee2e2 !important;
+            border-color: #e11d48 !important;
+            color: #991b1b !important;
+            font-weight: 700;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+        .quiz-feedback.show-correct {
+            display: block;
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .quiz-feedback.show-wrong {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Erreurs Fréquentes */
+        .remediation-block { 
+            border-left: 5px solid #eab308;
+            background: #fefce8;
+            padding: 16px; 
+            border-radius: 0 8px 8px 0; 
+            margin-bottom: 15px; 
+            scroll-margin-top: 30px; 
+        }
+        .remediation-block h4 { 
+            color: #854d0e;
+            margin-bottom: 6px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-size: 1.05rem;
+        }
+        .remediation-block p { 
+            font-size: 0.92rem; 
+            color: #713f12; 
+        }
+
+        footer { 
+            text-align: center; 
+            margin-top: 40px; 
+            padding: 24px 0; 
+            color: var(--text-light); 
+            font-size: 0.85rem; 
+            border-top: 1px solid #e2e8f0; 
+        }
+
+        @media (max-width: 600px) {
+            .calc-form { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="nav-back">
+        <a href="https://gobacpro.github.io/Maths-sciences/index.html">← Retour aux modules</a>
+    </div>
+
+    <header>
+        <h1>Transporter l'énergie sous forme électrique</h1>
+        <p>1ère Bac Pro MELEC • LP Pierre Latécoère • Sciences Physiques</p>
+    </header>
+
+    <!-- ÉTAPE 1 : LE COURS -->
+    <h2 class="section-title">🟢 Étape 1 : Je comprends (Cours)</h2>
+
+    <div class="card">
+        <details>
+            <summary>🔍 Référentiel Officiel des Compétences Bac Pro MELEC</summary>
+            <div style="margin-top: 12px; padding-left: 10px; border-left: 3px solid #cbd5e1;">
+                <ul class="skills-list">
+                    <li>
+                        <span class="badge-skill bg-appr">S'approprier</span> 
+                        Identifier le rôle d'un transformateur (élévateur / abaisseur) et les tensions de transport (THT, HT, BT).
+                    </li>
+                    <li>
+                        <span class="badge-skill bg-ana">Analyser</span> 
+                        Expliquer l'intérêt de transporter l'énergie sous très haute tension pour minimiser l'effet Joule.
+                    </li>
+                    <li>
+                        <span class="badge-skill bg-rea">Réaliser</span> 
+                        Calculer les pertes par effet Joule en ligne avec la formule <i>P = R × I²</i>.
+                    </li>
+                    <li>
+                        <span class="badge-skill bg-val">Valider / Communiquer</span> 
+                        Comparer l'énergie perdue en ligne selon la tension de distribution retenue.
+                    </li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    <div class="card">
+        <h3 style="color: var(--secondary); margin-bottom: 12px; font-size: 1.1rem;">⚡ Formules & Principes Fondamentaux</h3>
+        <div class="formula-box">
+            <div class="formula-card">
+                <h4>Pertes par Effet Joule</h4>
+                <span>P = R × I²</span>
+                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">P en W | R en &Omega; | I en A</p>
+            </div>
+            <div class="formula-card">
+                <h4>Transformateur Idéal</h4>
+                <span>U₂ / U₁ = N₂ / N₁</span>
+                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">U₂ &lt; U₁ : Abaisseur | U₂ &gt; U₁ : Élévateur</p>
+            </div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Étape du Réseau</th>
+                        <th>Niveau de Tension</th>
+                        <th>Rôle du Transformateur</th>
+                        <th>Objectif Technique</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Sortie Centrale</strong></td>
+                        <td>20 kV &rarr; 400 kV (THT)</td>
+                        <td>Élévateur</td>
+                        <td>Diminuer l'intensité I pour réduire les pertes Joule en ligne</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transport Régional</strong></td>
+                        <td>400 kV &rarr; 70 kV / 20 kV (HTA)</td>
+                        <td>Abaisseur</td>
+                        <td>Interconnexion régionale et grands sites industriels</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Distribution Finale</strong></td>
+                        <td>20 kV &rarr; 230 V / 400 V (BT)</td>
+                        <td>Abaisseur</td>
+                        <td>Alimentation domestique sécurisée (230 V sinusoïdal, 50 Hz)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <a href="LECON TRANSPORTER ELEC.pdf" download class="resource-link" style="margin-top: 15px;">
+            <span>📄 Télécharger la fiche de cours complète (LP Pierre Latécoère)</span>
+            <span>📥</span>
+        </a>
+    </div>
+
+    <!-- ÉTAPE 2 : SIMULATEUR / EXERCICEUR -->
+    <h2 class="section-title">🔵 Étape 2 : Simulateur d'impact THT & Pertes Joule</h2>
+
+    <div class="card">
+        <div class="interactive-box">
+            <h3 style="color: var(--secondary); margin-bottom: 4px;">Simulateur de Pertes de Ligne</h3>
+            <p style="color: var(--text-light); font-size: 0.9rem;">Observe pourquoi on élève la tension à 400 kV pour transporter une même puissance.</p>
+
+            <form class="calc-form" onsubmit="event.preventDefault(); simulerPertes();">
+                <div class="form-group">
+                    <label for="input-power">Puissance à transporter :</label>
+                    <input type="number" id="input-power" value="100" step="any" required>
+                </div>
+                <div class="form-group">
+                    <label for="unit-power">Unité :</label>
+                    <select id="unit-power">
+                        <option value="MW" selected>Mégawatts (MW)</option>
+                        <option value="kW">Kilowatts (kW)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="input-res">Résistance de la ligne (R) :</label>
+                    <input type="number" id="input-res" value="10" step="any" required>
+                </div>
+                <div class="form-group">
+                    <label for="input-voltage">Tension de transport :</label>
+                    <select id="input-voltage">
+                        <option value="400000" selected>400 kV (Ligne THT standard)</option>
+                        <option value="70000">70 kV (Ligne régionale)</option>
+                        <option value="20000">20 kV (Moyenne tension HTA)</option>
+                        <option value="230">230 V (Tension secteur domestique)</option>
+                    </select>
+                </div>
+                <div class="form-group" style="justify-content: flex-end;">
+                    <button type="submit" class="btn-calc">Calculer l'Intensité & les Pertes Joule</button>
+                </div>
+            </form>
+
+            <div id="results-zone" class="results-box" style="display: none;">
+                <h4 style="color: var(--sciences); font-size: 1.05rem; border-bottom: 2px solid #d1fae5; padding-bottom: 6px;">Bilan énergétique de la ligne</h4>
+                <div class="results-grid">
+                    <div class="res-item">
+                        <h5>Courant en ligne (I = P / U)</h5>
+                        <p id="res-i">-- A</p>
+                    </div>
+                    <div class="res-item">
+                        <h5>Pertes Joule (P_pertes = R × I²)</h5>
+                        <p id="res-p-loss">-- W</p>
+                    </div>
+                    <div class="res-item">
+                        <h5>Pourcentage d'énergie perdue</h5>
+                        <p id="res-percent">-- %</p>
+                    </div>
+                    <div class="res-item">
+                        <h5>Chute de tension en ligne (&Delta;U = R × I)</h5>
+                        <p id="res-du">-- V</p>
+                    </div>
+                </div>
+                <p id="res-expl" style="font-size: 0.85rem; color: var(--text-light); margin-top: 12px; text-align: left;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODULE QCM INTERACTIF (20 QUESTIONS) -->
+    <h2 class="section-title">📝 Auto-évaluation : 20 questions chrono</h2>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+            <p style="color: var(--text-light); font-size: 0.95rem;">Vérifie tes acquis sur le transformateur, le réseau électrique et l'effet Joule.</p>
+            <div id="score-box" style="font-weight: 800; font-size: 1.1rem; color: var(--sciences); background: #ecfdf5; padding: 6px 14px; border-radius: 8px; border: 1px solid #a7f3d0;">
+                Score : <span id="current-score">0</span> / 20
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Questions générées par JS -->
+        </div>
+
+        <div id="quiz-finish" style="display: none; text-align: center; padding: 25px 15px; background: #f8fafc; border-radius: 8px; border: 2px dashed #cbd5e1; margin-top: 20px;">
+            <h3 style="color: var(--secondary); margin-bottom: 8px; font-size: 1.3rem;">Bilan du test terminé !</h3>
+            <p id="quiz-final-text" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 15px;"></p>
+            <button type="button" class="btn-calc" style="max-width: 250px; margin: 0 auto; display: block;" onclick="reinitialiserQuiz()">Recommencer le test</button>
+        </div>
+    </div>
+
+    <!-- ÉTAPE 3 : CCF -->
+    <h2 class="section-title">🔴 Étape 3 : Objectif CCF</h2>
+    <div class="card">
+        <p style="margin-bottom: 15px;">Évaluation sommative : dimensionnement d'un transformateur de poste de livraison et calcul des pertes de ligne.</p>
+        <a href="TD_Evaluation_Transport_Electricite_1ere_MELEC.pdf" download class="resource-link">
+            <span>📝 Télécharger le Sujet d'entraînement CCF (PDF)</span>
+            <span>📥</span>
+        </a>
+    </div>
+
+    <!-- DERNIÈRE PARTIE : ERREURS FRÉQUENTES -->
+    <h2 class="section-title">⚠️ Erreurs fréquentes</h2>
+    <div class="card">
+        <div id="erreur-transfo" class="remediation-block">
+            <h4>⚠️ T1 — Confusion Élévateur / Abaisseur</h4>
+            <p>Compare toujours la tension de sortie (secondaire U₂) à la tension d'entrée (primaire U₁). Si <strong>U₂ &lt; U₁</strong>, la tension diminue : le transformateur est <strong>abaisseur</strong>. Si <strong>U₂ &gt; U₁</strong>, il est <strong>élévateur</strong>.</p>
+        </div>
+
+        <div id="erreur-joule" class="remediation-block">
+            <h4>⚠️ T2 — Oubli du carré sur l'intensité (P = R × I²)</h4>
+            <p>Dans la formule des pertes Joule, l'intensité est élevée au carré ! Si le courant est multiplié par 2, les pertes sont multipliées par <strong>4</strong>. Si le courant est divisé par 10 (grâce à la THT), les pertes sont divisées par <strong>100</strong>.</p>
+        </div>
+
+        <div id="erreur-secteur" class="remediation-block">
+            <h4>⚠️ T3 — Caractéristiques de la tension de secteur</h4>
+            <p>La tension aux bornes d'une prise domestique en France est une tension <strong>alternative sinusoïdale</strong> de valeur efficace <strong>230 V</strong> et de fréquence <strong>50 Hz</strong> (et non une tension continue de batterie).</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 — Ressources pédagogiques de Mathématiques et Physique-Chimie de SISILIA 先生 : "頑張ってください".</p>
+    </footer>
+</div>
+
+<script>
+    /* SIMULATEUR DE PERTES JOULE */
+    function simulerPertes() {
+        const pInput = parseFloat(document.getElementById('input-power').value);
+        const pUnit = document.getElementById('unit-power').value;
+        const rVal = parseFloat(document.getElementById('input-res').value);
+        const uVal = parseFloat(document.getElementById('input-voltage').value);
+
+        if (isNaN(pInput) || isNaN(rVal) || pInput <= 0 || rVal < 0) {
+            alert("Merci de saisir des valeurs valides !");
+            return;
+        }
+
+        const pWatts = (pUnit === 'MW') ? pInput * 1000000 : pInput * 1000;
+        const intensite = pWatts / uVal;
+        const pertesJoule = rVal * Math.pow(intensite, 2);
+        const ratioPertes = (pertesJoule / pWatts) * 100;
+        const chuteTension = rVal * intensite;
+
+        document.getElementById('res-i').innerText = intensite.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + " A";
+        
+        let pertesStr = "";
+        if (pertesJoule >= 1000000) {
+            pertesStr = (pertesJoule / 1000000).toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " MW";
+        } else if (pertesJoule >= 1000) {
+            pertesStr = (pertesJoule / 1000).toLocaleString('fr-FR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " kW";
+        } else {
+            pertesStr = pertesJoule.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) + " W";
+        }
+        document.getElementById('res-p-loss').innerText = pertesStr;
+
+        document.getElementById('res-percent').innerText = (ratioPertes > 100 ? "> 100" : ratioPertes.toLocaleString('fr-FR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })) + " %";
+        document.getElementById('res-du').innerText = chuteTension.toLocaleString('fr-FR', { maximumFractionDigits: 1 }) + " V";
+
+        if (uVal === 230 && ratioPertes > 100) {
+            document.getElementById('res-expl').innerHTML = "<strong style='color: #e11d48;'>Constat physique :</strong> Transporter cette puissance sous 230 V demanderait un câble gigantesque ; la ligne dissiperait toute l'énergie avant même d'arriver au consommateur !";
+        } else {
+            document.getElementById('res-expl').innerHTML = `<strong>Constat physique :</strong> Sous ${uVal / 1000} kV, le courant n'est que de ${intensite.toFixed(1)} A. L'élévation de tension permet de limiter les pertes Joule à seulement ${ratioPertes.toFixed(2)} % de la puissance produite.`;
+        }
+
+        document.getElementById('results-zone').style.display = 'block';
+    }
+
+    /* BANQUE DE 20 QUESTIONS TRANSPORTER L'ÉNERGIE */
+    const banqueQuestionsTranspo = [
+        {
+            q: "1. De quoi est principalement constitué un transformateur électrique ?",
+            opts: ["D'un rotor et de charbons conducteurs", "De deux enroulements indépendants sur un circuit magnétique commun", "D'une résistance et d'un condensateur", "D'une batterie et d'un onduleur"],
+            rep: 1,
+            exp: "Un transformateur comporte deux bobines de cuivre (primaire et secondaire) couplées magnétiquement."
+        },
+        {
+            q: "2. Sur quel type de tension un transformateur peut-il fonctionner ?",
+            opts: ["Tension continue uniquement", "Tension alternative sinusoïdale", "N'importe quel courant sans distinction", "Tension pulsée négative"],
+            rep: 1,
+            exp: "Le phénomène d'induction magnétique nécessite une variation temporelle du flux, donc une tension alternative."
+        },
+        {
+            q: "3. Si la tension de sortie U₂ est inférieure à la tension d'entrée U₁, le transformateur est dit :",
+            opts: ["Élévateur", "Abaisseur", "Redresseur", "Régulateur"],
+            rep: 1,
+            exp: "U₂ < U₁ signifie que la tension est abaissée : c'est un transformateur abaisseur."
+        },
+        {
+            q: "4. Si la tension secondaire U₂ est supérieure à la tension primaire U₁, il s'agit d'un :",
+            opts: ["Transformateur abaisseur", "Transformateur élévateur", "Sectionneur", "Disjoncteur"],
+            rep: 1,
+            exp: "U₂ > U₁ : la tension augmente, il s'agit d'un transformateur élévateur."
+        },
+        {
+            q: "5. Sous quelle plage de tension circule l'électricité sur les lignes à Très Haute Tension (THT) en France ?",
+            opts: ["230 V à 400 V", " Entre 225 000 V et 400 000 V", "1 000 V à 5 000 V", "12 V à 48 V"],
+            rep: 1,
+            exp: "Les lignes de grand transport THT fonctionnent couramment à 225 kV ou 400 kV."
+        },
+        {
+            q: "6. Pourquoi élève-t-on la tension à la sortie des centrales de production ?",
+            opts: ["Pour rendre le courant plus rapide", "Pour réduire l'intensité I et limiter les pertes par effet Joule", "Pour changer la fréquence de 50 Hz", "Pour empêcher les oiseaux de se poser"],
+            rep: 1,
+            exp: "À puissance égale (P = U × I), monter U permet de diminuer I. Comme les pertes dépendent de I², on les réduit massivement."
+        },
+        {
+            q: "7. Qu'est-ce que l'effet Joule dans un conducteur électrique ?",
+            opts: ["Une perte d'électrons vers l'air libre", "Un dégagement de chaleur provoqué par le passage du courant dans la résistance", "Une variation de fréquence", "Une force mécanique rotative"],
+            rep: 1,
+            exp: "L'effet Joule est la conversion d'énergie électrique en énergie thermique due aux chocs électroniques."
+        },
+        {
+            q: "8. Quelle formule donne la puissance dissipée par effet Joule dans une ligne ?",
+            opts: ["P = R / I²", "P = R × I²", "P = U × R", "P = R × I"],
+            rep: 1,
+            exp: "La puissance thermique dissipée s'exprime par P = R × I² (ou P = U² / R)."
+        },
+        {
+            q: "9. Si l'intensité I circulant dans un câble est divisée par 2, les pertes par effet Joule sont :",
+            opts: ["Divisées par 2", "Divisées par 4", "Multipliées par 2", "Inchangées"],
+            rep: 1,
+            exp: "L'intensité étant au carré (I²), (1/2)² = 1/4 : les pertes sont divisées par 4."
+        },
+        {
+            q: "10. Quelles sont les caractéristiques de la tension disponible sur une prise domestique standard en France ?",
+            opts: ["230 V continu - 0 Hz", "230 V alternatif sinusoïdal - 50 Hz", "400 V alternatif - 100 Hz", "110 V alternatif - 60 Hz"],
+            rep: 1,
+            exp: "Le réseau domestique français délivre 230 V de tension efficace à une fréquence de 50 Hz."
+        },
+        {
+            q: "11. Quel équipement raccorde directement le réseau de distribution 20 kV aux habitations (230 V) ?",
+            opts: ["Un transformateur abaisseur de quartier", "Un transformateur élévateur", "Un compteur Linky seul", "Une éolienne"],
+            rep: 0,
+            exp: "Un transformateur abaisseur abaisse la moyenne tension (20 kV) à la basse tension (230 V / 400 V)."
+        },
+        {
+            q: "12. Quel est le rôle de l'enroulement primaire d'un transformateur ?",
+            opts: ["Recevoir la tension d'alimentation U₁", "Fournir le courant à la charge U₂", "Mesurer la terre", "Couper le circuit en cas de court-circuit"],
+            rep: 0,
+            exp: "Le primaire est le circuit d'entrée connecté à la source d'énergie."
+        },
+        {
+            q: "13. Quel est le rôle de l'enroulement secondaire ?",
+            opts: ["Alimenter la charge avec la tension transformée U₂", "Refroidir le circuit magnétique", "Créer le champ magnétique initial", "Supprimer les harmoniques"],
+            rep: 0,
+            exp: "Le secondaire est le circuit de sortie connecté au récepteur."
+        },
+        {
+            q: "14. Une ligne de résistance R = 4 &Omega; est traversée par un courant I = 10 A. Quelle est la perte Joule ?",
+            opts: ["40 W", "400 W", "160 W", "80 W"],
+            rep: 1,
+            exp: "P = R × I² = 4 × (10)² = 4 × 100 = 400 W."
+        },
+        {
+            q: "15. Si la même ligne (R = 4 &Omega;) transporte le même flux en haute tension avec I = 1 A, quelle est la perte ?",
+            opts: ["4 W", "40 W", "0,4 W", "16 W"],
+            rep: 0,
+            exp: "P = R × I² = 4 × (1)² = 4 W (pertes divisées par 100 par rapport à 10 A)."
+        },
+        {
+            q: "16. Pourquoi le circuit magnétique d'un transformateur est-il constitué de tôles feuilletées isolées ?",
+            opts: ["Pour réduire les courants de Foucault et les pertes internes", "Pour diminuer son poids", "Pour permettre le passage de l'air", "Pour décorer le composant"],
+            rep: 0,
+            exp: "Le feuilletage du fer limite la circulation des courants induits parasites (courants de Foucault)."
+        },
+        {
+            q: "17. Que se passe-t-il si l'on branche un transformateur sur une batterie de 12 V continu ?",
+            opts: ["Il élève la tension continue", "Il ne fonctionne pas et peut griller par absence d'inductance", "Il recharge la batterie", "Il change le continu en alternatif"],
+            rep: 1,
+            exp: "En courant continu, le flux magnétique est constant (pas d'induction) : l'enroulement se comporte comme un court-circuit résistif."
+        },
+        {
+            q: "18. Quelle relation lie le nombre de spires N₁, N₂ et les tensions U₁, U₂ d'un transformateur idéal ?",
+            opts: ["U₂ / U₁ = N₂ / N₁", "U₂ × U₁ = N₂ × N₁", "U₂ / U₁ = N₁ / N₂", "U₂ - U₁ = N₂ - N₁"],
+            rep: 0,
+            exp: "Le rapport de transformation est égal au rapport du nombre de spires : m = U₂ / U₁ = N₂ / N₁."
+        },
+        {
+            q: "19. Quel métal est majoritairement employé pour réaliser les enroulements d'un transformateur ?",
+            opts: ["L'aluminium pur", "Le cuivre", "Le plomb", "L'acier inoxydable"],
+            rep: 1,
+            exp: "Le cuivre est choisi pour sa conductivité électrique élevée, réduisant les pertes thermiques internes."
+        },
+        {
+            q: "20. L'effet Joule est-il toujours un inconvénient en électricité ?",
+            opts: ["Oui, il s'agit toujours d'une perte inutile", "Non, il est utilisé utilement dans les radiateurs, chauffe-eau et fers à souder", "Oui, car il détruit tous les composants", "Non, car il augmente le courant"],
+            rep: 1,
+            exp: "L'effet Joule est un inconvénient sur les lignes de transport, mais le principe de base recherché pour les appareils de chauffage."
+        }
+    ];
+
+    let score = 0;
+    let questionsRepondues = 0;
+
+    function afficherQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+
+        banqueQuestionsTranspo.forEach((item, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'quiz-item unanswered';
+            qDiv.id = `q-item-${index}`;
+
+            let html = `<div class="quiz-question">${item.q}</div>`;
+            html += `<div class="quiz-options">`;
+            item.opts.forEach((opt, optIndex) => {
+                html += `<button type="button" class="btn-option" onclick="validerReponse(${index}, ${optIndex}, this)">${opt}</button>`;
+            });
+            html += `</div>`;
+            html += `<div id="feedback-${index}" class="quiz-feedback"></div>`;
+
+            qDiv.innerHTML = html;
+            container.appendChild(qDiv);
+        });
+    }
+
+    function validerReponse(qIndex, choixIndex, boutonClique) {
+        const qItem = document.getElementById(`q-item-${qIndex}`);
+        const feedback = document.getElementById(`feedback-${qIndex}`);
+        const options = qItem.querySelectorAll('.btn-option');
+        const data = banqueQuestionsTranspo[qIndex];
+
+        options.forEach(btn => btn.disabled = true);
+        questionsRepondues++;
+
+        if (choixIndex === data.rep) {
+            score++;
+            boutonClique.classList.add('opt-correct');
+            qItem.classList.remove('unanswered');
+            qItem.classList.add('correct');
+            feedback.className = 'quiz-feedback show-correct';
+            feedback.innerHTML = `<strong>Bonne réponse !</strong> ${data.exp}`;
+        } else {
+            boutonClique.classList.add('opt-wrong');
+            options[data.rep].classList.add('opt-correct');
+            qItem.classList.remove('unanswered');
+            qItem.classList.add('wrong');
+            feedback.className = 'quiz-feedback show-wrong';
+            feedback.innerHTML = `<strong>Erreur !</strong> ${data.exp}`;
+        }
+
+        document.getElementById('current-score').innerText = score;
+
+        if (questionsRepondues === banqueQuestionsTranspo.length) {
+            conclureQuiz();
+        }
+    }
+
+    function conclureQuiz() {
+        const finishZone = document.getElementById('quiz-finish');
+        const finalText = document.getElementById('quiz-final-text');
+        finishZone.style.display = 'block';
+
+        if (score >= 16) {
+            finalText.innerHTML = `Excellent résultat : <span style="color: var(--success);">${score} / 20</span> ! Tu maîtrises parfaitement la distribution électrique et l'effet Joule.`;
+        } else if (score >= 10) {
+            finalText.innerHTML = `Score convenable : <span style="color: #ea580c;">${score} / 20</span>. Révise les formules de pertes et les niveaux de tension.`;
+        } else {
+            finalText.innerHTML = `Score à consolider : <span style="color: #e11d48;">${score} / 20</span>. Prends le temps de relire la section « Erreurs fréquentes ».`;
+        }
+    }
+
+    function reinitialiserQuiz() {
+        score = 0;
+        questionsRepondues = 0;
+        document.getElementById('current-score').innerText = '0';
+        document.getElementById('quiz-finish').style.display = 'none';
+        afficherQuiz();
+    }
+
+    document.addEventListener('DOMContentLoaded', afficherQuiz);
+</script>
+
+</body>
+</html>
