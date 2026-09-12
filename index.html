@@ -32,71 +32,15 @@
 
         header { 
             text-align: center; 
-            padding: 32px 20px; 
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+            padding: 36px 20px; 
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); 
             color: white; 
             border-radius: var(--radius); 
-            margin-bottom: 24px; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            margin-bottom: 28px; 
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15); 
         }
-        header h1 { font-size: 1.8rem; margin-bottom: 8px; font-weight: 800; }
-        header p { color: #94a3b8; font-size: 1rem; }
-
-        /* Module Code Rapide */
-        .quick-access {
-            background: var(--card-bg);
-            border-radius: var(--radius);
-            padding: 18px 20px;
-            margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-            border: 1px solid #e2e8f0;
-        }
-        .quick-access label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-        }
-        .quick-access-form {
-            display: flex;
-            gap: 10px;
-        }
-        .quick-access input {
-            flex: 1;
-            padding: 12px 14px;
-            border: 2px solid #cbd5e1;
-            border-radius: 8px;
-            font-size: 1rem;
-            text-transform: uppercase;
-            font-weight: 700;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .quick-access input:focus {
-            border-color: var(--primary);
-        }
-        .quick-access button {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0 20px;
-            border-radius: 8px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.2s;
-            min-height: 48px;
-        }
-        .quick-access button:hover { background: var(--primary-hover); }
-        .error-msg {
-            display: none;
-            color: var(--maths);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-top: 8px;
-        }
+        header h1 { font-size: 1.9rem; margin-bottom: 8px; font-weight: 800; }
+        header p { color: #dbeafe; font-size: 1rem; }
 
         /* Grille des matières */
         .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
@@ -162,7 +106,7 @@
             align-items: center; 
             padding: 12px 14px; 
             background: #f8fafc; 
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e2e8f0; 
             border-radius: 8px; 
             transition: all 0.2s; 
             font-size: 0.95rem; 
@@ -170,7 +114,7 @@
         }
         .chapters-list a:hover { 
             background: #ffffff; 
-            border-color: #cbd5e1;
+            border-color: #cbd5e1; 
             transform: translateX(3px);
         }
         
@@ -205,16 +149,6 @@
         <h1>Maths & Sciences Pro</h1>
         <p>Ressources pédagogiques & fiches méthodes — Bac Professionnel</p>
     </header>
-
-    <!-- ACCÈS RAPIDE PAR CODE (CORRECTION COPIE) -->
-    <section class="quick-access">
-        <label for="code-input">Un code sur ta copie ? Tape-le ici (ex: R1, STAT1, E1) :</label>
-        <div class="quick-access-form">
-            <input type="text" id="code-input" placeholder="Ex: R1" autocomplete="off" autocorrect="off" spellcheck="false">
-            <button type="button" onclick="redirigerCode()">Accéder</button>
-        </div>
-        <p id="error-msg" class="error-msg">Code inconnu. Vérifie l'orthographe sur ta copie.</p>
-    </section>
 
     <!-- GRILLE DES COURS -->
     <main class="grid">
@@ -264,7 +198,7 @@
 
             <ul id="sciences-1ere" class="chapters-list">
                 <li>
-                    <a href="premiere-pro/sciences/Chapitre 1/Distinguer_E_et_P_electrique">
+                    <a href="premiere-pro/sciences/Chapitre 1/Distinguer_E_et_P_electrique.html">
                         <span>Énergie et puissance électrique</span>
                         <span class="badge">1ère Pro</span>
                     </a>
@@ -274,7 +208,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 — Ressources pédagogiques de Mathématiques et Physique-Chimie de M.SISILIA 先生 - 亀の学校.</p>
+        <p>&copy; 2026 — Ressources pédagogiques de Mathématiques et Physique-Chimie de M. SISILIA 先生 - 亀の学校.</p>
     </footer>
 </div>
 
@@ -297,33 +231,6 @@
         targetButton.classList.add('active');
         targetList.classList.add('active');
     }
-
-    const tableCorrespondance = {
-        'R1': 'premiere-pro/maths/statistiques.html#erreur-saisie',
-        'R2': 'premiere-pro/maths/statistiques.html#erreur-comparaison',
-        'R3': 'premiere-pro/maths/statistiques.html#erreur-dispersion',
-        'STAT1': 'premiere-pro/maths/statistiques.html',
-        'E1': 'premiere-pro/physique-chimie/Distinguer_E_et_P_electrique.html',
-        'E2': 'premiere-pro/physique-chimie/securite-electrique.html'
-    };
-
-    function redirigerCode() {
-        const input = document.getElementById('code-input').value.trim().toUpperCase();
-        const errorMsg = document.getElementById('error-msg');
-        
-        if (tableCorrespondance[input]) {
-            errorMsg.style.display = 'none';
-            window.location.href = tableCorrespondance[input];
-        } else {
-            errorMsg.style.display = 'block';
-        }
-    }
-
-    document.getElementById('code-input').addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            redirigerCode();
-        }
-    });
 </script>
 
 </body>
