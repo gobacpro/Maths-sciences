@@ -1,387 +1,773 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Cours - Probabilités et fluctuation d'une fréquence</title>
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.5;
-      color: #1a1a1a;
-      background-color: #ffffff;
-      padding: 24px;
-      max-width: 900px;
-      margin: auto;
-    }
-    .header-box {
-      border: 1px solid #b0bec5;
-      background-color: #f8f9fa;
-      padding: 16px;
-      border-radius: 6px;
-      margin-bottom: 24px;
-    }
-    .etablissement {
-      margin: 0;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #546e7a;
-      font-weight: bold;
-    }
-    h1 {
-      margin: 8px 0 4px 0;
-      color: #1565c0;
-      font-size: 24px;
-    }
-    .metadata {
-      margin: 0;
-      color: #37474f;
-      font-size: 14px;
-    }
-    h2 {
-      color: #1565c0;
-      border-bottom: 2px solid #e0e0e0;
-      padding-bottom: 4px;
-      margin-top: 28px;
-    }
-    h3 {
-      color: #2c3e50;
-      margin-top: 18px;
-    }
-    .formula-box {
-      background-color: #eef2f7;
-      padding: 12px 18px;
-      border-left: 4px solid #1565c0;
-      margin: 14px 0;
-      font-size: 15px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      margin-bottom: 20px;
-    }
-    th, td {
-      border: 1px solid #cfd8dc;
-      padding: 9px 12px;
-    }
-    th {
-      background-color: #1565c0;
-      color: #ffffff;
-      text-align: center;
-    }
-    .table-memo th {
-      background-color: #37474f;
-    }
-    .exercise-box {
-      border: 1px solid #cfd8dc;
-      padding: 14px;
-      border-radius: 6px;
-      margin-bottom: 18px;
-      background-color: #fafafa;
-    }
-    .exercise-title {
-      margin-top: 0;
-      color: #2e7d32;
-      font-size: 16px;
-      font-weight: bold;
-    }
-    .correction-box {
-      margin-top: 10px;
-      background-color: #ffffff;
-      padding: 12px;
-      border-radius: 4px;
-      border: 1px solid #e0e0e0;
-    }
-    .correction-title {
-      margin: 0 0 6px 0;
-      font-weight: bold;
-      color: #1565c0;
-    }
-    .highlight {
-      font-weight: bold;
-      color: #0d47a1;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- MÉTADONNÉES DE COMMUNICATION & PARTAGE -->
+    <title>1ère Pro — Probabilités & Conditionnement</title>
+    <meta name="description" content="Module d'apprentissage, tableau croisé dynamique et quiz interactif sur les probabilités en 1ère Bac Professionnel.">
+    <meta property="og:title" content="Maths Pro — Probabilités & Probabilités Conditionnelles">
+    <meta property="og:description" content="Fiche synthèse, calculateur de tableau d'effectifs et 20 QCM interactifs d'entraînement.">
+    <meta property="og:type" content="website">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --maths: #e11d48;
+            --maths-dark: #be123c;
+            --maths-light: #ffe4e6;
+            --secondary: #0f172a;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+            --success: #16a34a;
+            --radius: 12px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            line-height: 1.6; 
+            padding: 16px; 
+        }
+        .container { max-width: 850px; margin: 0 auto; }
+
+        /* Fil d'Ariane */
+        .nav-back { margin-bottom: 20px; }
+        .nav-back a { 
+            color: var(--maths); 
+            text-decoration: none; 
+            font-weight: 700; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 6px; 
+            font-size: 0.95rem;
+        }
+        .nav-back a:hover { text-decoration: underline; }
+
+        header { 
+            background: var(--card-bg); 
+            padding: 24px; 
+            border-radius: var(--radius); 
+            margin-bottom: 25px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04); 
+            border-left: 6px solid var(--maths); 
+        }
+        header h1 { font-size: 1.7rem; color: var(--secondary); margin-bottom: 6px; font-weight: 800; }
+        header p { color: var(--text-light); font-size: 0.95rem; }
+
+        .section-title { 
+            font-size: 1.25rem; 
+            color: var(--secondary); 
+            margin: 30px 0 15px 0; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+
+        .card { 
+            background: var(--card-bg); 
+            border-radius: var(--radius); 
+            padding: 20px; 
+            margin-bottom: 20px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03); 
+            border: 1px solid #e2e8f0; 
+        }
+
+        /* Compétences */
+        details summary { 
+            font-weight: 700; 
+            cursor: pointer; 
+            color: var(--maths); 
+            padding: 6px 0; 
+            user-select: none;
+        }
+        .skills-list { list-style: none; padding-top: 12px; }
+        .skills-list li { margin-bottom: 12px; font-size: 0.92rem; }
+        .badge-skill { 
+            display: inline-block; 
+            padding: 3px 8px; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            font-size: 0.78rem; 
+            margin-right: 8px; 
+        }
+        .bg-appr { background: #fee2e2; color: #991b1b; }
+        .bg-ana  { background: #e0f2fe; color: #0369a1; }
+        .bg-rea  { background: #dcfce7; color: #166534; }
+        .bg-val  { background: #fef9c3; color: #854d0e; }
+
+        /* Formules */
+        .formula-box {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 15px 0;
+        }
+        .formula-card {
+            flex: 1;
+            min-width: 220px;
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+            border-radius: 8px;
+            padding: 14px;
+            text-align: center;
+        }
+        .formula-card h4 { color: var(--maths); margin-bottom: 4px; font-size: 0.95rem; }
+        .formula-card span { font-size: 1.25rem; font-weight: 800; color: var(--secondary); }
+
+        /* Tableaux */
+        .table-wrap { overflow-x: auto; margin: 15px 0; }
+        table { width: 100%; border-collapse: collapse; background: white; min-width: 500px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px 12px; text-align: center; font-size: 0.9rem; }
+        th { background: #f1f5f9; color: var(--secondary); font-weight: 700; }
+
+        /* Liens PDF */
+        .resource-link { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 14px 16px; 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            color: var(--secondary); 
+            font-weight: 600; 
+            transition: all 0.2s; 
+        }
+        .resource-link:hover { 
+            background: #ffffff; 
+            border-color: var(--maths); 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05); 
+        }
+
+        /* Simulateur */
+        .interactive-box { 
+            background: #f8fafc; 
+            border: 2px dashed #cbd5e1; 
+            padding: 22px; 
+            border-radius: var(--radius); 
+        }
+        .table-input {
+            width: 70px;
+            padding: 6px;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 6px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .table-input:focus {
+            border-color: var(--maths);
+            outline: none;
+        }
+        .btn-calc {
+            background: var(--maths);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 15px;
+            min-height: 46px;
+        }
+        .btn-calc:hover { background: var(--maths-dark); }
+
+        .results-box {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+        .results-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .res-item {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--maths);
+            text-align: left;
+        }
+        .res-item h5 { font-size: 0.8rem; color: var(--text-light); margin-bottom: 4px; text-transform: uppercase; }
+        .res-item p { font-size: 1.15rem; font-weight: 700; color: var(--secondary); }
+
+        /* Quiz */
+        .quiz-item {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .quiz-item.unanswered { border-left: 4px solid #cbd5e1; }
+        .quiz-item.correct { border-left: 4px solid var(--success); }
+        .quiz-item.wrong { border-left: 4px solid var(--maths); }
+
+        .quiz-question {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 12px;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        @media(min-width: 600px) {
+            .quiz-options { grid-template-columns: 1fr 1fr; }
+        }
+
+        .btn-option {
+            background: #f8fafc;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 10px 14px;
+            text-align: left;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
+            color: var(--text);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+        }
+        .btn-option:hover:not(:disabled) {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+        .btn-option.opt-correct {
+            background: #dcfce7 !important;
+            border-color: var(--success) !important;
+            color: #166534 !important;
+            font-weight: 700;
+        }
+        .btn-option.opt-wrong {
+            background: #fee2e2 !important;
+            border-color: var(--maths) !important;
+            color: #991b1b !important;
+            font-weight: 700;
+        }
+
+        .quiz-feedback {
+            display: none;
+            margin-top: 10px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+        }
+        .quiz-feedback.show-correct {
+            display: block;
+            background: #f0fdf4;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+        .quiz-feedback.show-wrong {
+            display: block;
+            background: #fef2f2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        /* Erreurs Fréquentes */
+        .remediation-block { 
+            border-left: 5px solid #eab308;
+            background: #fefce8;
+            padding: 16px; 
+            border-radius: 0 8px 8px 0; 
+            margin-bottom: 15px; 
+            scroll-margin-top: 30px; 
+        }
+        .remediation-block h4 { 
+            color: #854d0e;
+            margin-bottom: 6px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+            font-size: 1.05rem;
+        }
+        .remediation-block p { 
+            font-size: 0.92rem; 
+            color: #713f12; 
+        }
+
+        footer { 
+            text-align: center; 
+            margin-top: 40px; 
+            padding: 24px 0; 
+            color: var(--text-light); 
+            font-size: 0.85rem; 
+            border-top: 1px solid #e2e8f0; 
+        }
+
+        @media (max-width: 600px) {
+            .results-grid { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-  <!-- EN-TÊTE PÉDAGOGIQUE -->
-  <div class="header-box">
-    <p class="etablissement">Lycée Professionnel Pierre Latécoère &bull; Baccalauréat Professionnel (1ère Pro)</p>
-    <h1>Probabilités et fluctuation d'une fréquence</h1>
-    <p class="metadata"><strong>Discipline :</strong> Mathématiques &bull; <strong>Groupement :</strong> Bac Pro &bull; <strong>Thématique :</strong> Statistiques et Probabilités</p>
-  </div>
-
-  <!-- INTRODUCTION -->
-  <h2>Introduction</h2>
-  <p>Une expérience aléatoire est une expérience dont le résultat est soumis au hasard (impossible à prévoir avec certitude) et reproductible dans des conditions identiques. L'objectif de ce chapitre est d'apprendre à dénombrer les issues possibles, à calculer la probabilité d'événements élémentaires, composés ou conditionnels, et à interpréter la fluctuation d'échantillonnage.</p>
-
-  <!-- I. VOCABULAIRE ET PROBABILITÉ D'UN ÉVÉNEMENT -->
-  <h2>I. Probabilité d'un événement</h2>
-
-  <h3>1. Définitions et calcul de base (Situation d'équiprobabilité)</h3>
-  <p>Lorsque toutes les issues d'une expérience aléatoire ont la même probabilité de se produire (on parle de situation d'équiprobabilité), la probabilité d'un événement A, notée P(A), est donnée par le rapport :</p>
-
-  <div class="formula-box">
-    <strong>Formule fondamentale :</strong><br>
-    P(A) = (Nombre de cas favorables à l'événement A) / (Nombre total de cas possibles)
-  </div>
-
-  <p><strong>Propriétés essentielles :</strong></p>
-  <ul>
-    <li>Pour tout événement A : <strong>0 &le; P(A) &le; 1</strong> (une probabilité s'exprime par un nombre décimal compris entre 0 et 1, ou en pourcentage).</li>
-    <li>Si P(A) = 0, l'événement A est dit <strong>impossible</strong>.</li>
-    <li>Si P(A) = 1, l'événement A est dit <strong>certain</strong>.</li>
-  </ul>
-
-  <h3>2. Événement contraire</h3>
-  <p>L'événement contraire d'un événement A est l'événement qui se réalise lorsque A n'a pas lieu. Il est noté <strong>A&#773;</strong> (ou "non A").</p>
-
-  <div class="formula-box">
-    <strong>Probabilité de l'événement contraire :</strong><br>
-    P(A&#773;) = 1 &minus; P(A)
-  </div>
-
-  <p><em>Exemple type :</em> Dans un jeu standard de 32 cartes, on tire une carte au hasard. Soit A l'événement "Tirer une carte de cœur".<br>
-  Le jeu compte 8 cœurs sur 32 cartes au total :<br>
-  P(A) = 8 / 32 = <strong>0,25</strong> (soit 25 % de chance, ou une chance sur 4).<br>
-  L'événement contraire A&#773; est "Tirer une carte qui n'est pas un cœur" :<br>
-  P(A&#773;) = 1 &minus; 0,25 = <strong>0,75</strong> (soit 75 %).</p>
-
-  <!-- II. RÉUNION ET INTERSECTION D'ÉVÉNEMENTS -->
-  <h2>II. Réunion et intersection d'événements</h2>
-
-  <h3>1. Définitions formelles</h3>
-  <ul>
-    <li><strong>Intersection (A &cap; B) :</strong> ensemble des issues réalisant <strong>à la fois</strong> l'événement A <strong>ET</strong> l'événement B ("A inter B").</li>
-    <li><strong>Réunion (A &cup; B) :</strong> ensemble des issues réalisant l'événement A <strong>OU</strong> l'événement B (au moins l'un des deux, "A union B").</li>
-  </ul>
-
-  <div class="formula-box">
-    <strong>Formule de la réunion :</strong><br>
-    P(A &cup; B) = P(A) + P(B) &minus; P(A &cap; B)
-  </div>
-
-  <h3>2. Événements incompatibles</h3>
-  <p>Deux événements A et B sont dits <strong>incompatibles</strong> (ou disjoints) s'ils ne peuvent pas se produire en même temps (leur intersection est vide : A &cap; B = &empty;).</p>
-  <div class="formula-box">
-    Si A et B sont incompatibles, alors : <strong>P(A &cap; B) = 0</strong><br>
-    D'où : <strong>P(A &cup; B) = P(A) + P(B)</strong>
-  </div>
-
-  <h3>3. Application pratique avec tableau croisé d'effectifs</h3>
-  <p>Une population de 200 composants électroniques a été testée selon deux critères A et B :</p>
-
-  <table>
-    <thead>
-      <tr>
-        <th style="text-align: left;">Critères</th>
-        <th>B</th>
-        <th>B&#773;</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>A</strong></td>
-        <td style="text-align: center;">40</td>
-        <td style="text-align: center;">90</td>
-        <td style="text-align: center;"><strong>130</strong></td>
-      </tr>
-      <tr>
-        <td><strong>A&#773;</strong></td>
-        <td style="text-align: center;">20</td>
-        <td style="text-align: center;">50</td>
-        <td style="text-align: center;"><strong>70</strong></td>
-      </tr>
-      <tr style="background-color: #f5f5f5;">
-        <td><strong>Total</strong></td>
-        <td style="text-align: center;"><strong>60</strong></td>
-        <td style="text-align: center;"><strong>140</strong></td>
-        <td style="text-align: center;"><strong>200</strong></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Calculs des probabilités directes :</strong></p>
-  <ul>
-    <li>P(A) = 130 / 200 = <strong>0,65</strong></li>
-    <li>P(B) = 60 / 200 = <strong>0,30</strong></li>
-    <li>P(A &cap; B) = 40 / 200 = <strong>0,20</strong> (intersection visible à la croisée de la ligne A et de la colonne B)</li>
-    <li>P(A &cup; B) = P(A) + P(B) &minus; P(A &cap; B) = 0,65 + 0,30 &minus; 0,20 = <strong>0,75</strong><br>
-    <em>Vérification directe par le tableau :</em> (90 + 40 + 20) / 200 = 150 / 200 = <strong>0,75</strong>.</li>
-  </ul>
-
-  <!-- III. PROBABILITÉS CONDITIONNELLES -->
-  <h2>III. Probabilité conditionnelle</h2>
-
-  <h3>1. Définition</h3>
-  <p>La probabilité conditionnelle évalue la chance qu'un événement B se réalise lorsque l'on sait déjà qu'un événement A est réalisé. On la note <strong>P<sub>A</sub>(B)</strong> ou P(B|A), et on lit <em>"probabilité de B sachant A"</em>.</p>
-
-  <div class="formula-box">
-    <strong>Formule générale :</strong><br>
-    P<sub>A</sub>(B) = P(A &cap; B) / P(A) &nbsp;&nbsp;&nbsp;&nbsp;(avec P(A) &ne; 0)
-  </div>
-
-  <h3>2. Calcul à partir du tableau</h3>
-  <p>À partir du tableau précédent :</p>
-  <ul>
-    <li><strong>Probabilité de B sachant A :</strong> on restreint l'univers d'étude à la seule ligne de A (130 individus au total).<br>
-    P<sub>A</sub>(B) = P(A &cap; B) / P(A) = 0,20 / 0,65 &approx; <strong>0,308</strong> (ou directement : 40 / 130 &approx; 0,308).</li>
-    <li><strong>Probabilité de A sachant B :</strong> on restreint cette fois l'univers d'étude à la seule colonne de B (60 individus au total).<br>
-    P<sub>B</sub>(A) = P(A &cap; B) / P(B) = 0,20 / 0,30 &approx; <strong>0,667</strong> (ou directement : 40 / 60 &approx; 0,667).</li>
-  </ul>
-
-  <!-- IV. FLUCTUATION D'UNE FRÉQUENCE -->
-  <h2>IV. Fluctuation d'une fréquence et échantillonnage</h2>
-
-  <h3>1. Notions de fréquence et de probabilité</h3>
-  <p>Lorsqu'on répète N fois une expérience aléatoire de façon indépendante, la <strong>fréquence observée f</strong> d'un événement correspond au quotient :</p>
-  <div class="formula-box">
-    f = (Nombre de fois où l'événement apparaît) / N
-  </div>
-  <ul>
-    <li>D'un échantillon à l'autre (pour une même taille N), la fréquence f varie : c'est le phénomène de <strong>fluctuation d'échantillonnage</strong>.</li>
-    <li><strong>Loi des grands nombres :</strong> Lorsque le nombre N de répétitions devient très grand, la fréquence observée f se rapproche et se stabilise autour de la probabilité théorique p de l'événement.</li>
-  </ul>
-
-  <h3>2. Intervalle de fluctuation (au seuil de 95 %)</h3>
-  <p>Pour un échantillon de taille N &ge; 30 et une probabilité théorique p comprise entre 0,2 et 0,8, la fréquence observée f appartient, dans environ 95 % des cas, à l'intervalle :</p>
-  <div class="formula-box">
-    <strong>Intervalle de fluctuation :</strong><br>
-    I = [ p &minus; 1 / &radic;N &nbsp;;&nbsp; p + 1 / &radic;N ]
-  </div>
-  <p>Cet intervalle permet de contrôler la conformité d'une production ou de valider la représentativité d'un lot.</p>
-
-  <!-- V. EXERCICES D'ENTRAÎNEMENT -->
-  <h2>V. Applications numériques et entraînements</h2>
-
-  <div class="exercise-box">
-    <div class="exercise-title">Exercice 1 : Contrôle qualité en atelier (Tableau croisé)</div>
-    <p>Une entreprise fabrique des pièces métalliques sur deux chaînes automatiques distinctes (C1 et C2). Un contrôle d'un lot de 500 pièces révèle que 15 pièces présentent un défaut (événement D) :</p>
-    <ul>
-      <li>300 pièces proviennent de la chaîne C1.</li>
-      <li>9 pièces parmi celles venant de C1 présentent un défaut.</li>
-    </ul>
-    <p><strong>Travail à faire :</strong></p>
-    <ol>
-      <li>Compléter le tableau croisé d'effectifs ci-dessous.</li>
-      <li>Calculer la probabilité qu'une pièce prise au hasard vienne de C2, notée P(C2).</li>
-      <li>Calculer la probabilité qu'une pièce prise au hasard présente un défaut, notée P(D).</li>
-      <li>Calculer P(C1 &cap; D).</li>
-      <li>Sachant qu'une pièce provient de la chaîne C2, quelle est la probabilité qu'elle présente un défaut ? Noter et calculer P<sub>C2</sub>(D).</li>
-    </ol>
-
-    <table style="max-width: 500px; margin: 10px auto;">
-      <thead>
-        <tr>
-          <th>Chaîne</th>
-          <th>D (Défaut)</th>
-          <th>D&#773; (Conforme)</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>C1</strong></td>
-          <td style="text-align: center;">9</td>
-          <td style="text-align: center;">...</td>
-          <td style="text-align: center;">300</td>
-        </tr>
-        <tr>
-          <td><strong>C2</strong></td>
-          <td style="text-align: center;">...</td>
-          <td style="text-align: center;">...</td>
-          <td style="text-align: center;">...</td>
-        </tr>
-        <tr style="background-color: #f5f5f5;">
-          <td><strong>Total</strong></td>
-          <td style="text-align: center;">15</td>
-          <td style="text-align: center;">...</td>
-          <td style="text-align: center;">500</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="correction-box">
-      <p class="correction-title">Corrigé détaillé de l'exercice 1 :</p>
-      <p style="margin: 0;">
-        <strong>1. Tableau complété :</strong><br>
-        - C1 &cap; D&#773; = 300 &minus; 9 = <strong>291</strong><br>
-        - Total C2 = 500 &minus; 300 = <strong>200</strong><br>
-        - C2 &cap; D = 15 &minus; 9 = <strong>6</strong><br>
-        - C2 &cap; D&#773; = 200 &minus; 6 = <strong>194</strong><br>
-        - Total D&#773; = 291 + 194 = <strong>485</strong><br><br>
-        <strong>2. Probabilité P(C2) :</strong> P(C2) = 200 / 500 = <span class="highlight">0,40</span> (soit 40 %).<br>
-        <strong>3. Probabilité P(D) :</strong> P(D) = 15 / 500 = <span class="highlight">0,03</span> (soit 3 %).<br>
-        <strong>4. Probabilité P(C1 &cap; D) :</strong> P(C1 &cap; D) = 9 / 500 = <span class="highlight">0,018</span> (soit 1,8 %).<br>
-        <strong>5. Probabilité conditionnelle P<sub>C2</sub>(D) :</strong> P<sub>C2</sub>(D) = (Nombre de pièces C2 avec défaut) / (Total pièces C2) = 6 / 200 = <span class="highlight">0,03</span> (soit 3 %).
-      </p>
+<div class="container">
+    <div class="nav-back">
+        <a href="https://gobacpro.github.io/Maths-sciences/index.html">← Retour aux modules</a>
     </div>
-  </div>
 
-  <div class="exercise-box">
-    <div class="exercise-title">Exercice 2 : Fluctuation d'échantillonnage</div>
-    <p>Une machine est réglée pour produire 5 % de pièces non conformes (p = 0,05). On prélève un échantillon de N = 100 pièces dans la production du matin et on compte 8 pièces défectueuses.</p>
-    <ol>
-      <li>Calculer la fréquence observée f de pièces défectueuses dans cet échantillon.</li>
-      <li>Calculer l'intervalle de fluctuation I = [ p &minus; 1 / &radic;N &nbsp;;&nbsp; p + 1 / &radic;N ] au seuil de 95 %. (On admettra la formule utilisable pour cet effectif).</li>
-      <li>La proportion observée remet-elle en cause le bon réglage de la machine ? Conclure.</li>
-    </ol>
+    <header>
+        <h1>Probabilités</h1>
+        <p>1ère Professionnelle • LP Pierre Latécoère • Mathématiques</p>
+    </header>
 
-    <div class="correction-box">
-      <p class="correction-title">Corrigé détaillé de l'exercice 2 :</p>
-      <p style="margin: 0;">
-        <strong>1. Fréquence observée :</strong> f = 8 / 100 = <span class="highlight">0,08</span>.<br>
-        <strong>2. Intervalle de fluctuation :</strong><br>
-        1 / &radic;N = 1 / &radic;100 = 1 / 10 = 0,10.<br>
-        Borne inférieure = p &minus; 0,10 = 0,05 &minus; 0,10 = &minus;0,05 &rarr; ramenée à 0 car une fréquence ne peut être négative.<br>
-        Borne supérieure = p + 0,10 = 0,05 + 0,10 = 0,15.<br>
-        Soit l'intervalle <strong>I = [ 0 ; 0,15 ]</strong>.<br>
-        <strong>3. Conclusion :</strong> La fréquence observée f = 0,08 appartient bien à l'intervalle de fluctuation [ 0 ; 0,15 ]. L'écart constaté s'explique par la simple fluctuation d'échantillonnage. Il n'y a donc pas lieu de considérer la machine comme déréglée au seuil de 95 %.
-      </p>
+    <!-- ÉTAPE 1 : LE COURS -->
+    <h2 class="section-title">🟢 Étape 1 : Je comprends (Cours)</h2>
+
+    <div class="card">
+        <details>
+            <summary>🔍 Référentiel Officiel des Compétences du Bac Pro</summary>
+            <div style="margin-top: 12px; padding-left: 10px; border-left: 3px solid #cbd5e1;">
+                <ul class="skills-list">
+                    <li>
+                        <span class="badge-skill bg-appr">S'approprier</span> 
+                        Lire et compléter un tableau croisé d'effectifs à deux critères ou un arbre de probabilités.
+                    </li>
+                    <li>
+                        <span class="badge-skill bg-ana">Analyser</span> 
+                        Distinguer l'intersection $A \cap B$ (« et »), la réunion $A \cup B$ (« ou ») et l'incompatibilité ($A \cap B = \emptyset$).
+                    </li>
+                    <li>
+                        <span class="badge-skill bg-rea">Réaliser</span> 
+                        Calculer $P(A)$, $P(\overline{A}) = 1 - P(A)$, $P(A \cup B)$ et la probabilité conditionnelle $P_A(B) = \frac{P(A \cap B)}{P(A)}$.
+                    </li>
+                    <li>
+                        <span class="badge-skill bg-val">Valider / Communiquer</span> 
+                        Interpréter une probabilité conditionnelle dans une situation concrète de contrôle qualité ou de maintenance.
+                    </li>
+                </ul>
+            </div>
+        </details>
     </div>
-  </div>
 
-  <!-- VI. FORMULAIRE MÉMO -->
-  <h2>VI. Formulaire et mémo récapitulatif</h2>
-  <table class="table-memo">
-    <thead>
-      <tr>
-        <th style="width: 25%; text-align: left;">Notion</th>
-        <th style="width: 40%; text-align: left;">Formule mathématique</th>
-        <th style="width: 35%; text-align: left;">Moyen mémo / Remarque</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Événement contraire</strong></td>
-        <td>P(A&#773;) = 1 &minus; P(A)</td>
-        <td>Somme toujours égale à 1.</td>
-      </tr>
-      <tr style="background-color: #f5f5f5;">
-        <td><strong>Réunion ("OU")</strong></td>
-        <td>P(A &cup; B) = P(A) + P(B) &minus; P(A &cap; B)</td>
-        <td>On soustrait l'intersection pour éviter de la compter deux fois.</td>
-      </tr>
-      <tr>
-        <td><strong>Événements incompatibles</strong></td>
-        <td>P(A &cap; B) = 0 &rArr; P(A &cup; B) = P(A) + P(B)</td>
-        <td>Aucune issue commune possible.</td>
-      </tr>
-      <tr style="background-color: #f5f5f5;">
-        <td><strong>Conditionnelle</strong></td>
-        <td>P<sub>A</sub>(B) = P(A &cap; B) / P(A)</td>
-        <td>On divise toujours par la probabilité de l'événement qui est "sachant".</td>
-      </tr>
-      <tr>
-        <td><strong>Intervalle de fluctuation</strong></td>
-        <td>I = [ p &minus; 1 / &radic;N ; p + 1 / &radic;N ]</td>
-        <td>Valable au seuil de 95 % pour évaluer la conformité d'un échantillon.</td>
-      </tr>
-    </tbody>
-  </table>
+    <div class="card">
+        <h3 style="color: var(--secondary); margin-bottom: 12px; font-size: 1.1rem;">⚡ Formules Fondamentales</h3>
+        <div class="formula-box">
+            <div class="formula-card">
+                <h4>Événement Contraire</h4>
+                <span>P(Ā) = 1 - P(A)</span>
+                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">P(A) + P(Ā) = 1</p>
+            </div>
+            <div class="formula-card">
+                <h4>Réunion d'Événements</h4>
+                <span>P(A &cup; B) = P(A) + P(B) - P(A &cap; B)</span>
+                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">Si incompatibles : P(A &cap; B) = 0</p>
+            </div>
+            <div class="formula-card">
+                <h4>Probabilité Conditionnelle</h4>
+                <span>P<sub>A</sub>(B) = P(A &cap; B) / P(A)</span>
+                <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 4px;">« Probabilité de B sachant A »</p>
+            </div>
+        </div>
+
+        <a href="Probabilites LECON 1ere pro ELEVES.pdf" download class="resource-link" style="margin-top: 15px;">
+            <span>📄 Télécharger la fiche de cours complète (LP Pierre Latécoère)</span>
+            <span>📥</span>
+        </a>
+    </div>
+
+    <!-- ÉTAPE 2 : EXERCICEUR / SIMULATEUR -->
+    <h2 class="section-title">🔵 Étape 2 : Simulateur de Tableau Croisé</h2>
+
+    <div class="card">
+        <div class="interactive-box">
+            <h3 style="color: var(--secondary); margin-bottom: 4px;">Atelier : Analyse d'un Tableau d'Effectifs</h3>
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 15px;">Modifie les valeurs de l'échantillon ou garde les valeurs du cours (200 individus) pour vérifier tes calculs.</p>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Population</th>
+                            <th>Événement B</th>
+                            <th>Contraire B̄</th>
+                            <th>Total ligne</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Événement A</strong></td>
+                            <td><input type="number" id="cell-ab" class="table-input" value="40" min="0"></td>
+                            <td><input type="number" id="cell-anb" class="table-input" value="90" min="0"></td>
+                            <td id="tot-a" style="font-weight: 700; background: #f8fafc;">130</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Contraire Ā</strong></td>
+                            <td><input type="number" id="cell-nab" class="table-input" value="20" min="0"></td>
+                            <td><input type="number" id="cell-nanb" class="table-input" value="50" min="0"></td>
+                            <td id="tot-na" style="font-weight: 700; background: #f8fafc;">70</td>
+                        </tr>
+                        <tr style="background: #f1f5f9; font-weight: 700;">
+                            <td>Total colonne</td>
+                            <td id="tot-b">60</td>
+                            <td id="tot-nb">140</td>
+                            <td id="tot-global" style="color: var(--maths);">200</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <button type="button" class="btn-calc" onclick="calculerProbabilites()">Calculer toutes les probabilités</button>
+
+            <div id="results-zone" class="results-box" style="display: none;">
+                <h4 style="color: var(--maths); font-size: 1.05rem; border-bottom: 2px solid var(--maths-light); padding-bottom: 6px;">Résultats des calculs de probabilités</h4>
+                <div class="results-grid">
+                    <div class="res-item">
+                        <h5>P(A) et P(B)</h5>
+                        <p id="res-pa-pb">--</p>
+                    </div>
+                    <div class="res-item">
+                        <h5>Intersection : P(A &cap; B)</h5>
+                        <p id="res-inter">--</p>
+                    </div>
+                    <div class="res-item">
+                        <h5>Réunion : P(A &cup; B)</h5>
+                        <p id="res-union">--</p>
+                    </div>
+                    <div class="res-item">
+                        <h5>Conditionnelles : P<sub>A</sub>(B) et P<sub>B</sub>(A)</h5>
+                        <p id="res-cond">--</p>
+                    </div>
+                </div>
+                <p id="res-detail" style="font-size: 0.85rem; color: var(--text-light); margin-top: 12px; text-align: left;"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODULE QCM INTERACTIF (20 QUESTIONS) -->
+    <h2 class="section-title">📝 Auto-évaluation : 20 questions chrono</h2>
+
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+            <p style="color: var(--text-light); font-size: 0.95rem;">Vérifie tes acquis sur les probabilités simples, conditionnelles, réunions et intersections.</p>
+            <div id="score-box" style="font-weight: 800; font-size: 1.1rem; color: var(--maths); background: #fff1f2; padding: 6px 14px; border-radius: 8px; border: 1px solid #fecdd3;">
+                Score : <span id="current-score">0</span> / 20
+            </div>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Questions générées par JS -->
+        </div>
+
+        <div id="quiz-finish" style="display: none; text-align: center; padding: 25px 15px; background: #f8fafc; border-radius: 8px; border: 2px dashed #cbd5e1; margin-top: 20px;">
+            <h3 style="color: var(--secondary); margin-bottom: 8px; font-size: 1.3rem;">Bilan du test terminé !</h3>
+            <p id="quiz-final-text" style="font-size: 1.1rem; font-weight: 700; margin-bottom: 15px;"></p>
+            <button type="button" class="btn-calc" style="max-width: 250px; margin: 0 auto; display: block;" onclick="reinitialiserQuiz()">Recommencer le test</button>
+        </div>
+    </div>
+
+    <!-- ÉTAPE 3 : CCF -->
+    <h2 class="section-title">🔴 Étape 3 : Objectif CCF</h2>
+    <div class="card">
+        <p style="margin-bottom: 15px;">Sujet d'entraînement officiel : analyse d'un contrôle de fabrication industrielle (pièces conformes / défectueuses) et calculs de probabilités conditionnelles.</p>
+        <a href="Cours_Statistiques_2_Variables_Premiere_Pro_Exercices.pdf" download class="resource-link">
+            <span>📝 Télécharger le Sujet d'entraînement CCF (PDF)</span>
+            <span>📥</span>
+        </a>
+    </div>
+
+    <!-- DERNIÈRE PARTIE : ERREURS FRÉQUENTES -->
+    <h2 class="section-title">⚠️ Erreurs fréquentes</h2>
+    <div class="card">
+        <div id="contraire" class="remediation-block">
+            <h4>⚠️ P1 — Erreur sur l'événement contraire Ā</h4>
+            <p>La probabilité de l'événement contraire est toujours donnée par <strong>P(Ā) = 1 - P(A)</strong>. Ne confonds pas avec 1 / P(A). La somme des probabilités d'un événement et de son contraire est toujours égale à 1.</p>
+        </div>
+
+        <div id="reunion" class="remediation-block">
+            <h4>⚠️ P2 — Oubli de soustraire l'intersection dans P(A &cup; B)</h4>
+            <p>La formule générale est <strong>P(A &cup; B) = P(A) + P(B) - P(A &cap; B)</strong>. Si tu oublies de soustraire l'intersection, les éléments appartenant à la fois à A et à B sont comptés deux fois ! Tu ne peux écrire P(A &cup; B) = P(A) + P(B) que si les événements sont incompatibles.</p>
+        </div>
+
+        <div id="conditionnelle" class="remediation-block">
+            <h4>⚠️ P3 — Inversion de la condition dans P<sub>A</sub>(B)</h4>
+            <p>Attention au dénominateur ! Dans la probabilité de B <em>sachant A</em>, c'est A qui est déjà réalisé : <strong>P<sub>A</sub>(B) = P(A &cap; B) / P(A)</strong>. Le dénominateur est donc toujours l'effectif ou la probabilité de l'événement en indice (la condition).</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 — Ressources pédagogiques de Mathématiques et Physique-Chimie de SISILIA 先生 : "頑張ってください".</p>
+    </footer>
+</div>
+
+<script>
+    /* SIMULATEUR DE PROBABILITÉS SUR TABLEAU CROISÉ */
+    function calculerProbabilites() {
+        const ab = parseFloat(document.getElementById('cell-ab').value) || 0;
+        const anb = parseFloat(document.getElementById('cell-anb').value) || 0;
+        const nab = parseFloat(document.getElementById('cell-nab').value) || 0;
+        const nanb = parseFloat(document.getElementById('cell-nanb').value) || 0;
+
+        const totA = ab + anb;
+        const totNA = nab + nanb;
+        const totB = ab + nab;
+        const totNB = anb + nanb;
+        const total = totA + totNA;
+
+        if (total === 0) {
+            alert("Veuillez renseigner des effectifs strictement positifs !");
+            return;
+        }
+
+        // Mise à jour du tableau
+        document.getElementById('tot-a').innerText = totA;
+        document.getElementById('tot-na').innerText = totNA;
+        document.getElementById('tot-b').innerText = totB;
+        document.getElementById('tot-nb').innerText = totNB;
+        document.getElementById('tot-global').innerText = total;
+
+        // Calculs
+        const pA = totA / total;
+        const pB = totB / total;
+        const pInter = ab / total;
+        const pUnion = (totA + totB - ab) / total;
+        const pB_sachant_A = totA > 0 ? (ab / totA) : 0;
+        const pA_sachant_B = totB > 0 ? (ab / totB) : 0;
+
+        // Affichage
+        document.getElementById('res-pa-pb').innerHTML = `P(A) = ${pA.toFixed(3)} | P(B) = ${pB.toFixed(3)}`;
+        document.getElementById('res-inter').innerHTML = `P(A &cap; B) = ${pInter.toFixed(3)} <small>(${ab}/${total})</small>`;
+        document.getElementById('res-union').innerHTML = `P(A &cup; B) = ${pUnion.toFixed(3)} <small>(${totA}+${totB}-${ab}/${total})</small>`;
+        document.getElementById('res-cond').innerHTML = `P<sub>A</sub>(B) = ${pB_sachant_A.toFixed(3)} | P<sub>B</sub>(A) = ${pA_sachant_B.toFixed(3)}`;
+
+        document.getElementById('res-detail').innerHTML = 
+            `<strong>Détail :</strong> P(A &cup; B) = P(A) + P(B) - P(A &cap; B) = ${pA.toFixed(2)} + ${pB.toFixed(2)} - ${pInter.toFixed(2)} = ${pUnion.toFixed(2)}.<br>` +
+            `Pour la conditionnelle : P<sub>A</sub>(B) = ${ab} / ${totA} &approx; ${pB_sachant_A.toFixed(3)}.`;
+
+        document.getElementById('results-zone').style.display = 'block';
+    }
+
+    /* BANQUE DE 20 QUESTIONS PROBABILITÉS 1ère PRO */
+    const banqueQuestionsProba = [
+        {
+            q: "1. Quelle formule permet de calculer la probabilité d'un événement A en situation d'équiprobabilité ?",
+            opts: ["P(A) = cas possibles / cas favorables", "P(A) = nombre de cas favorables / nombre de cas possibles", "P(A) = cas favorables × cas possibles", "P(A) = 1 / nombre de cas favorables"],
+            rep: 1,
+            exp: "En cas d'équiprobabilité : P(A) = (nombre d'issues favorables) / (nombre total d'issues possibles)."
+        },
+        {
+            q: "2. Une probabilité est un nombre obligatoirement compris entre :",
+            opts: ["-1 et 1", "0 et 1", "0 et 100", "1 et 10"],
+            rep: 1,
+            exp: "Une probabilité est toujours comprise entre 0 (événement impossible) et 1 (événement certain)."
+        },
+        {
+            q: "3. Dans un jeu de 32 cartes, quelle est la probabilité de tirer une carte de cœur (8 cœurs au total) ?",
+            opts: ["0,50", "0,25", "0,08", "0,125"],
+            rep: 1,
+            exp: "P = 8 / 32 = 1 / 4 = 0,25 (soit 25 % de chance)."
+        },
+        {
+            q: "4. Quelle relation relie la probabilité d'un événement A et celle de son événement contraire Ā ?",
+            opts: ["P(Ā) = P(A) - 1", "P(Ā) = 1 - P(A)", "P(Ā) = 1 / P(A)", "P(Ā) = P(A)"],
+            rep: 1,
+            exp: "P(A) + P(Ā) = 1, donc la probabilité du contraire est P(Ā) = 1 - P(A)."
+        },
+        {
+            q: "5. Si la probabilité d'une pièce défectueuse est P(D) = 0,04, quelle est la probabilité que la pièce soit conforme ?",
+            opts: ["0,06", "0,96", "0,40", "0,60"],
+            rep: 1,
+            exp: "P(conforme) = 1 - 0,04 = 0,96 (soit 96 %)."
+        },
+        {
+            q: "6. Que désigne l'intersection de deux événements, notée A ∩ B ?",
+            opts: ["La réalisation de l'événement A ou de l'événement B", "La réalisation simultanée des deux événements A et B à la fois", "L'événement contraire de A", "La différence entre A et B"],
+            rep: 1,
+            exp: "A ∩ B (se lit « A inter B ») est l'ensemble des issues qui réalisent à la fois A ET B."
+        },
+        {
+            q: "7. Que désigne la réunion de deux événements, notée A ∪ B ?",
+            opts: ["La réalisation de l'un ou l'autre des événements (au moins un des deux)", "La réalisation obligatoire des deux en même temps", "Le produit des deux probabilités", "L'annulation des deux événements"],
+            rep: 0,
+            exp: "A ∪ B (se lit « A union B ») correspond au « OU » : l'événement est réalisé si A est réalisé, ou si B est réalisé, ou les deux."
+        },
+        {
+            q: "8. Quelle est la formule générale reliant P(A ∪ B), P(A), P(B) et P(A ∩ B) ?",
+            opts: ["P(A ∪ B) = P(A) + P(B)", "P(A ∪ B) = P(A) + P(B) - P(A ∩ B)", "P(A ∪ B) = P(A) × P(B)", "P(A ∪ B) = P(A ∩ B) - P(A)"],
+            rep: 1,
+            exp: "P(A ∪ B) = P(A) + P(B) - P(A ∩ B) afin de ne pas compter deux fois les issues communes."
+        },
+        {
+            q: "9. Que dit-on de deux événements A et B s'ils sont « incompatibles » ?",
+            opts: ["Leur réunion est impossible", "Leur intersection est vide : ils ne peuvent pas se produire en même temps", "Leurs probabilités sont égales", "P(A) = 1 - P(B)"],
+            rep: 1,
+            exp: "Deux événements sont incompatibles si leur réalisation simultanée est impossible, c'est-à-dire si P(A ∩ B) = 0."
+        },
+        {
+            q: "10. Si deux événements A et B sont incompatibles avec P(A) = 0,3 et P(B) = 0,4, que vaut P(A ∪ B) ?",
+            opts: ["0,12", "0,70", "0,10", "0,00"],
+            rep: 1,
+            exp: "Puisqu'ils sont incompatibles, P(A ∩ B) = 0. Donc P(A ∪ B) = 0,3 + 0,4 = 0,70."
+        },
+        {
+            q: "11. Sur 200 personnes, 130 réalisent A et 40 réalisent à la fois A et B. Que vaut P(A ∩ B) ?",
+            opts: ["0,65", "0,20", "0,308", "0,08"],
+            rep: 1,
+            exp: "P(A ∩ B) = 40 / 200 = 0,20 (soit 20 % de la population globale)."
+        },
+        {
+            q: "12. Sur 200 personnes, avec P(A) = 0,65, P(B) = 0,30 et P(A ∩ B) = 0,20, que vaut P(A ∪ B) ?",
+            opts: ["0,95", "0,75", "0,85", "0,55"],
+            rep: 1,
+            exp: "P(A ∪ B) = 0,65 + 0,30 - 0,20 = 0,75."
+        },
+        {
+            q: "13. Comment se note la probabilité de l'événement B sachant que l'événement A est déjà réalisé ?",
+            opts: ["P(A / B)", "P_A(B)", "P(A × B)", "P_B(A)"],
+            rep: 1,
+            exp: "La notation officielle est P_A(B), où la condition A est inscrite en indice."
+        },
+        {
+            q: "14. Quelle est la formule de la probabilité conditionnelle P_A(B) ?",
+            opts: ["P_A(B) = P(A ∩ B) / P(B)", "P_A(B) = P(A ∩ B) / P(A)", "P_A(B) = P(A) / P(A ∩ B)", "P_A(B) = P(A) × P(B)"],
+            rep: 1,
+            exp: "P_A(B) = P(A ∩ B) / P(A), à condition que P(A) soit non nul."
+        },
+        {
+            q: "15. Dans un tableau, l'effectif de A est 130 et l'effectif de A ∩ B est 40. Que vaut P_A(B) ?",
+            opts: ["40 / 200 = 0,20", "40 / 130 ≈ 0,308", "130 / 200 = 0,65", "130 / 40 = 3,25"],
+            rep: 1,
+            exp: "Sachant A, on restreint la population au total de A (130) : P_A(B) = 40 / 130 ≈ 0,308."
+        },
+        {
+            q: "16. Dans le même tableau, si l'effectif total de B est 60 et A ∩ B vaut 40, que vaut P_B(A) ?",
+            opts: ["40 / 60 ≈ 0,667", "60 / 200 = 0,30", "40 / 130 ≈ 0,308", "60 / 40 = 1,5"],
+            rep: 0,
+            exp: "Sachant B, on divise par le total de B (60) : P_B(A) = 40 / 60 ≈ 0,667. Note bien que P_A(B) ≠ P_B(A) !"
+        },
+        {
+            q: "17. Dans un arbre de probabilités pondéré, que vaut la somme des probabilités issues d'un même nœud ?",
+            opts: ["Elle dépend du nombre de branches", "Toujours exactement 1", "Toujours 100", "0,5"],
+            rep: 1,
+            exp: "La somme des probabilités portées par les branches partant d'un même nœud est toujours égale à 1."
+        },
+        {
+            q: "18. Comment calcule-t-on la probabilité de l'issue située au bout d'un chemin dans un arbre pondéré ?",
+            opts: ["En additionnant les probabilités rencontrées sur ce chemin", "En multipliant entre elles les probabilités rencontrées le long du chemin", "En divisant la première branche par la seconde", "En prenant la moyenne des branches"],
+            rep: 1,
+            exp: "Sur un arbre, la probabilité d'un chemin est le produit des probabilités de chaque branche : P(A ∩ B) = P(A) × P_A(B)."
+        },
+        {
+            q: "19. On tire un dé équilibré à 6 faces. On note A : « Obtenir un nombre pair » et B : « Obtenir un 5 ou 6 ». A et B sont-ils incompatibles ?",
+            opts: ["Oui, car ils n'ont aucun résultat commun", "Non, car l'issue 6 réalise à la fois A et B (A ∩ B = {6})", "Oui, car un dé ne donne qu'un résultat à la fois", "Impossible à déterminer"],
+            rep: 1,
+            exp: "Le résultat 6 est à la fois pair et supérieur ou égal à 5. A ∩ B n'est pas vide, ils ne sont donc pas incompatibles."
+        },
+        {
+            q: "20. Que vaut P(A ∩ B) si deux événements A et B sont dits indépendants ?",
+            opts: ["P(A ∩ B) = 0", "P(A ∩ B) = P(A) × P(B)", "P(A ∩ B) = P(A) + P(B)", "P(A ∩ B) = 1"],
+            rep: 1,
+            exp: "Deux événements sont indépendants si et seulement si P(A ∩ B) = P(A) × P(B), ce qui équivaut à P_A(B) = P(B)."
+        }
+    ];
+
+    let score = 0;
+    let questionsRepondues = 0;
+
+    function afficherQuiz() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+
+        banqueQuestionsProba.forEach((item, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'quiz-item unanswered';
+            qDiv.id = `q-item-${index}`;
+
+            let html = `<div class="quiz-question">${item.q}</div>`;
+            html += `<div class="quiz-options">`;
+            item.opts.forEach((opt, optIndex) => {
+                html += `<button type="button" class="btn-option" onclick="validerReponse(${index}, ${optIndex}, this)">${opt}</button>`;
+            });
+            html += `</div>`;
+            html += `<div id="feedback-${index}" class="quiz-feedback"></div>`;
+
+            qDiv.innerHTML = html;
+            container.appendChild(qDiv);
+        });
+    }
+
+    function validerReponse(qIndex, choixIndex, boutonClique) {
+        const qItem = document.getElementById(`q-item-${qIndex}`);
+        const feedback = document.getElementById(`feedback-${qIndex}`);
+        const options = qItem.querySelectorAll('.btn-option');
+        const data = banqueQuestionsProba[qIndex];
+
+        options.forEach(btn => btn.disabled = true);
+        questionsRepondues++;
+
+        if (choixIndex === data.rep) {
+            score++;
+            boutonClique.classList.add('opt-correct');
+            qItem.classList.remove('unanswered');
+            qItem.classList.add('correct');
+            feedback.className = 'quiz-feedback show-correct';
+            feedback.innerHTML = `<strong>Bonne réponse !</strong> ${data.exp}`;
+        } else {
+            boutonClique.classList.add('opt-wrong');
+            options[data.rep].classList.add('opt-correct');
+            qItem.classList.remove('unanswered');
+            qItem.classList.add('wrong');
+            feedback.className = 'quiz-feedback show-wrong';
+            feedback.innerHTML = `<strong>Erreur !</strong> ${data.exp}`;
+        }
+
+        document.getElementById('current-score').innerText = score;
+
+        if (questionsRepondues === banqueQuestionsProba.length) {
+            conclureQuiz();
+        }
+    }
+
+    function conclureQuiz() {
+        const finishZone = document.getElementById('quiz-finish');
+        const finalText = document.getElementById('quiz-final-text');
+        finishZone.style.display = 'block';
+
+        if (score >= 16) {
+            finalText.innerHTML = `Excellent résultat : <span style="color: var(--success);">${score} / 20</span> ! Tu maîtrises les probabilités et le conditionnement.`;
+        } else if (score >= 10) {
+            finalText.innerHTML = `Score convenable : <span style="color: #ea580c;">${score} / 20</span>. Révise les formules de réunion et de probabilités conditionnelles.`;
+        } else {
+            finalText.innerHTML = `Score insuffisant : <span style="color: var(--maths);">${score} / 20</span>. Prends le temps de consulter la section « Erreurs fréquentes ».`;
+        }
+    }
+
+    function reinitialiserQuiz() {
+        score = 0;
+        questionsRepondues = 0;
+        document.getElementById('current-score').innerText = '0';
+        document.getElementById('quiz-finish').style.display = 'none';
+        afficherQuiz();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        afficherQuiz();
+        calculerProbabilites();
+    });
+</script>
 
 </body>
 </html>
