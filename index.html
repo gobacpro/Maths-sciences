@@ -9,66 +9,212 @@
             --primary: #2563eb;
             --primary-hover: #1d4ed8;
             --secondary: #0f172a;
-            --bg: #f8fafc;
+            --bg: #f1f5f9;
             --card-bg: #ffffff;
-            --text: #334155;
+            --text: #1e293b;
             --text-light: #64748b;
             --maths: #e11d48;
+            --maths-light: #ffe4e6;
             --sciences: #059669;
+            --sciences-light: #d1fae5;
+            --radius: 12px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg); color: var(--text); line-height: 1.6; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        
-        header { text-align: center; padding: 40px 20px; background: var(--secondary); color: white; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        header h1 { font-size: 2.2rem; margin-bottom: 10px; }
-        header p { color: var(--text-light); font-size: 1.1rem; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            line-height: 1.5; 
+            padding: 16px; 
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+
+        header { 
+            text-align: center; 
+            padding: 32px 20px; 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+            color: white; 
+            border-radius: var(--radius); 
+            margin-bottom: 24px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+        }
+        header h1 { font-size: 1.8rem; margin-bottom: 8px; font-weight: 800; }
+        header p { color: #94a3b8; font-size: 1rem; }
+
+        /* Module Code Rapide */
+        .quick-access {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 18px 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
+        }
+        .quick-access label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+        .quick-access-form {
+            display: flex;
+            gap: 10px;
+        }
+        .quick-access input {
+            flex: 1;
+            padding: 12px 14px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .quick-access input:focus {
+            border-color: var(--primary);
+        }
+        .quick-access button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+            min-height: 48px;
+        }
+        .quick-access button:hover { background: var(--primary-hover); }
+        .error-msg {
+            display: none;
+            color: var(--maths);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 8px;
+        }
 
         /* Grille des matières */
         .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media(min-width: 768px) { .grid { grid-template-columns: 1fr 1fr; } }
 
-        .card { background: var(--card-bg); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05); border-top: 5px solid #ccc; }
+        .card { 
+            background: var(--card-bg); 
+            border-radius: var(--radius); 
+            padding: 22px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04); 
+            border-top: 5px solid #ccc; 
+        }
         .card.maths { border-top-color: var(--maths); }
         .card.sciences { border-top-color: var(--sciences); }
         
-        .card h2 { margin-bottom: 20px; font-size: 1.5rem; display: flex; align-items: center; gap: 10px; }
-        
-        /* Boutons de sélection de niveau */
-        .level-buttons { display: flex; gap: 10px; margin-bottom: 20px; }
-        .btn-lvl { flex: 1; padding: 10px; border: 1px solid #cbd5e1; background: #fff; border-radius: 6px; font-weight: bold; cursor: pointer; transition: all 0.2s; color: var(--text); }
-        
-        /* États actifs des boutons par matière */
-        .maths .btn-lvl.active { background: var(--maths); color: white; border-color: var(--maths); }
-        .sciences .btn-lvl.active { background: var(--sciences); color: white; border-color: var(--sciences); }
-        .btn-lvl:hover:not(.active) { background: #f1f5f9; }
+        .card h2 { 
+            margin-bottom: 18px; 
+            font-size: 1.35rem; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
 
-        /* Listes de chapitres (cachées par défaut) */
-        .chapters-list { display: none; list-style: none; animation: fadeIn 0.3s ease; }
+        /* Sélecteurs de niveau */
+        .level-buttons { display: flex; gap: 8px; margin-bottom: 18px; }
+        .btn-lvl { 
+            flex: 1; 
+            min-height: 44px;
+            padding: 10px; 
+            border: 1px solid #cbd5e1; 
+            background: #f8fafc; 
+            border-radius: 8px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            color: var(--text); 
+        }
+        
+        .maths .btn-lvl.active { 
+            background: var(--maths); 
+            color: white; 
+            border-color: var(--maths); 
+            box-shadow: 0 2px 6px rgba(225, 29, 72, 0.3); 
+        }
+        .sciences .btn-lvl.active { 
+            background: var(--sciences); 
+            color: white; 
+            border-color: var(--sciences); 
+            box-shadow: 0 2px 6px rgba(5, 150, 105, 0.3); 
+        }
+        .btn-lvl:hover:not(.active) { background: #e2e8f0; }
+
+        /* Listes de cours */
+        .chapters-list { display: none; list-style: none; animation: fadeIn 0.25s ease-out; }
         .chapters-list.active { display: block; }
         
-        .chapters-list li { margin-bottom: 12px; }
-        .chapters-list a { color: var(--text); text-decoration: none; display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f1f5f9; border-radius: 6px; transition: background 0.2s; font-size: 0.95rem; }
-        .chapters-list a:hover { background: #e2e8f0; color: var(--primary); }
+        .chapters-list li { margin-bottom: 10px; }
+        .chapters-list a { 
+            color: var(--text); 
+            text-decoration: none; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 12px 14px; 
+            background: #f8fafc; 
+            border: 1px solid #e2e8f0;
+            border-radius: 8px; 
+            transition: all 0.2s; 
+            font-size: 0.95rem; 
+            font-weight: 500;
+        }
+        .chapters-list a:hover { 
+            background: #ffffff; 
+            border-color: #cbd5e1;
+            transform: translateX(3px);
+        }
         
-        .badge { font-size: 0.8rem; padding: 2px 8px; background: #cbd5e1; border-radius: 9999px; font-weight: bold; color: var(--secondary); }
+        .badge { 
+            font-size: 0.75rem; 
+            padding: 3px 8px; 
+            background: #e2e8f0; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            color: var(--text-light); 
+        }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        footer { text-align: center; margin-top: 30px; padding: 40px 0; color: var(--text-light); font-size: 0.9rem; }
+        footer { 
+            text-align: center; 
+            margin-top: 40px; 
+            padding: 20px 0; 
+            color: var(--text-light); 
+            font-size: 0.85rem; 
+            border-top: 1px solid #e2e8f0;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>Cours de Mathématiques et Sciences</h1>
-        <p>Mathématiques & Physique-Chimie — Lycée Professionnel</p>
+        <h1>Maths & Sciences Pro</h1>
+        <p>Ressources pédagogiques & fiches méthodes — Bac Professionnel</p>
     </header>
+
+    <!-- ACCÈS RAPIDE PAR CODE (CORRECTION COPIE) -->
+    <section class="quick-access">
+        <label for="code-input">Un code sur ta copie ? Tape-le ici (ex: R1, STAT1, E1) :</label>
+        <div class="quick-access-form">
+            <input type="text" id="code-input" placeholder="Ex: R1" autocomplete="off" autocorrect="off" spellcheck="false">
+            <button type="button" onclick="redirigerCode()">Accéder</button>
+        </div>
+        <p id="error-msg" class="error-msg">Code inconnu. Vérifie l'orthographe sur ta copie.</p>
+    </section>
 
     <!-- GRILLE DES COURS -->
     <main class="grid">
@@ -76,11 +222,10 @@
         <article class="card maths">
             <h2>📐 Mathématiques</h2>
             <div class="level-buttons">
-                <button class="btn-lvl" onclick="switchLevel('maths', '2nde')">2nde Pro</button>
-                <button class="btn-lvl" onclick="switchLevel('maths', '1ere')">1ère Pro</button>
+                <button type="button" class="btn-lvl" onclick="switchLevel('maths', '2nde', this)">2nde Pro</button>
+                <button type="button" class="btn-lvl" onclick="switchLevel('maths', '1ere', this)">1ère Pro</button>
             </div>
             
-            <!-- Chapitres Seconde -->
             <ul id="maths-2nde" class="chapters-list">
                 <li>
                     <a href="seconde-pro/maths/statistiques-2nde.html">
@@ -88,14 +233,12 @@
                         <span class="badge">2nde Pro</span>
                     </a>
                 </li>
-                <!-- Ajoutez vos autres chapitres de 2nde ici -->
             </ul>
 
-            <!-- Chapitres Première -->
             <ul id="maths-1ere" class="chapters-list">
                 <li>
                     <a href="premiere-pro/maths/statistiques.html">
-                        <span>Statistiques à deux variables (Dispersion)</span>
+                        <span>Statistiques à deux variables & dispersion</span>
                         <span class="badge">1ère Pro</span>
                     </a>
                 </li>
@@ -106,11 +249,10 @@
         <article class="card sciences">
             <h2>⚡ Physique-Chimie</h2>
             <div class="level-buttons">
-                <button class="btn-lvl" onclick="switchLevel('sciences', '2nde')">2nde Pro</button>
-                <button class="btn-lvl" onclick="switchLevel('sciences', '1ere')">1ère Pro</button>
+                <button type="button" class="btn-lvl" onclick="switchLevel('sciences', '2nde', this)">2nde Pro</button>
+                <button type="button" class="btn-lvl" onclick="switchLevel('sciences', '1ere', this)">1ère Pro</button>
             </div>
 
-            <!-- Chapitres Seconde -->
             <ul id="sciences-2nde" class="chapters-list">
                 <li>
                     <a href="seconde-pro/physique-chimie/securite-electrique.html">
@@ -120,11 +262,10 @@
                 </li>
             </ul>
 
-            <!-- Chapitres Première -->
             <ul id="sciences-1ere" class="chapters-list">
                 <li>
                     <a href="premiere-pro/physique-chimie/Distinguer_E_et_P_electrique.html">
-                        <span>Distinguer Energie et Puissance Electrique </span>
+                        <span>Énergie et puissance électrique</span>
                         <span class="badge">1ère Pro</span>
                     </a>
                 </li>
@@ -133,43 +274,37 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 — Plateforme pédagogique de révisions Maths / Sciences de M. SISILIA. </p>
+        <p>&copy; 2026 — Ressources pédagogiques de Mathématiques et Physique-Chimie.</p>
     </footer>
 </div>
 
 <script>
-    // Gestion de l'affichage dynamique des chapitres par niveau
-    function switchLevel(subject, level) {
+    function switchLevel(subject, level, targetButton) {
         const card = document.querySelector(`.${subject}`);
         const buttons = card.querySelectorAll('.btn-lvl');
         const lists = card.querySelectorAll('.chapters-list');
         const targetList = document.getElementById(`${subject}-${level}`);
-        const targetButton = event.currentTarget;
 
-        // Si le bouton cliqué est déjà actif, on referme tout
         if (targetButton.classList.contains('active')) {
             targetButton.classList.remove('active');
             targetList.classList.remove('active');
             return;
         }
 
-        // Sinon, on nettoie les états actifs de la carte concernée
         buttons.forEach(btn => btn.classList.remove('active'));
         lists.forEach(list => list.classList.remove('active'));
 
-        // On active l'onglet sélectionné
         targetButton.classList.add('active');
         targetList.classList.add('active');
     }
 
-    // Configuration des raccourcis de correction (Gagne-temps)
     const tableCorrespondance = {
         'R1': 'premiere-pro/maths/statistiques.html#erreur-saisie',
         'R2': 'premiere-pro/maths/statistiques.html#erreur-comparaison',
         'R3': 'premiere-pro/maths/statistiques.html#erreur-dispersion',
         'STAT1': 'premiere-pro/maths/statistiques.html',
-        'E1': 'premiere-pro/physique-chimie/circuits-electriques.html#loi-ohm',
-        'E2': 'premiere-pro/physique-chimie/circuits-electriques.html#unites'
+        'E1': 'premiere-pro/physique-chimie/Distinguer_E_et_P_electrique.html',
+        'E2': 'premiere-pro/physique-chimie/securite-electrique.html'
     };
 
     function redirigerCode() {
@@ -184,8 +319,10 @@
         }
     }
 
-    document.getElementById('code-input').addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') { redirigerCode(); }
+    document.getElementById('code-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            redirigerCode();
+        }
     });
 </script>
 
